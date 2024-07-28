@@ -3,10 +3,9 @@ import React from "react";
 import { flame, light } from "../../assets/Colors";
 import IconButton from "./Buttons/IconButton";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
 
 const Footer = ({ activeRoute = "home" }) => {
-  const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+  const isAuthenticated = false;
   const navigation = useNavigation();
   const shopping = activeRoute === "cart" ? "shopping" : "shopping-outline";
   const account = !isAuthenticated

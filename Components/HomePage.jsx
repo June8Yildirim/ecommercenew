@@ -151,6 +151,7 @@ export default function HomePage() {
   const onChangeTextHandler = (query) => {
     setSearchQuery(query);
   };
+  //FIXME: FlatList key must bu fixed
   return (
     <View style={defaultStyle}>
       <Header emptyCart={false} />
@@ -161,7 +162,7 @@ export default function HomePage() {
       <View>
         <FlatList
           data={categories}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => item.id}
           renderItem={({ item, index }) => (
             <CategoryButton
               title={item.name}

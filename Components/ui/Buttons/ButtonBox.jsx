@@ -2,16 +2,10 @@ import { StyleSheet, View } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import SquareButton from "./SquareButton";
-import { useDispatch } from "react-redux";
-import { useAuth } from "../../../utils/hooks/useAuth";
-import { logout } from "../../../redux/store/actions/logout";
 
 const ButtonBox = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  // const isloading = useAuth(navigation, dispatch, "login");
   const logoutHandler = () => {
-    dispatch(logout());
     navigation.navigate("home");
   };
   return (

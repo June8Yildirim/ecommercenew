@@ -24,15 +24,9 @@ import UpdateProductScreen from "./Screens/UpdateProductScreen";
 import CategoriesScreen from "./Screens/AdminScreens/CategoriesScreen";
 import AdminOrdersScreen from "./Screens/AdminScreens/AdminOrdersScreen";
 import CameraScreen from "./Screens/CameraScreen";
-import { useDispatch } from "react-redux";
-import { loadUser } from "./redux/store/actions/login";
 
 export default function Main() {
   const Stack = createNativeStackNavigator();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
   return (
     <NavigationContainer>
       <Stack.Navigator

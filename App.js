@@ -1,13 +1,15 @@
 import Main from "./Main";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
+import { toastConfig } from "./utils/toastconfig";
+
+const client = new QueryClient();
 
 export default function App() {
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={client}>
       <Main />
-      <Toast />
-    </Provider>
+      <Toast config={toastConfig} />
+    </QueryClientProvider>
   );
 }

@@ -6,10 +6,10 @@ import { flame, light } from "../assets/Colors";
 import GeneralButton from "./ui/Buttons/GeneralButton";
 import Footer from "./ui/Footer";
 import HeaderTitle from "./ui/HeaderTitle";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/store/actions/login";
-import { Loader } from "./ui/Loader";
-import { useAuth } from "../utils/hooks/useAuth";
+import axios from "axios";
+import { baseURL } from "../axios/api";
+import { useMutation } from "@tanstack/react-query";
+import Toast, { ErrorToast, BaseToast } from "react-native-toast-message";
 
 export default function LoginPage({ route, navigation }) {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -18,12 +18,30 @@ export default function LoginPage({ route, navigation }) {
   const availableHeight = height * 0.75;
   const availableWidht = width * 0.65;
 
-  const dispatch = useDispatch();
-  const isLoading = useAuth(navigation, dispatch, "profile");
+  const loginQuery = async () => {
+    return await axios.post(`${baseURL}/auth`, user, { withCredentials: true });
+  };
+
+  const { mutate, data, isLoading, error, isSuccess } = useMutation({
+    mutationFn: () => loginQuery(),
+    mutationKey: [user],
+  });
 
   const submitHandler = () => {
-    dispatch(login(user));
+    mutate(user);
   };
+  useEffect(() => {
+    if (error) {
+      console.log(JSON.stringify(error, null, 4));
+      console.log(JSON.stringify(error.response.data.message, null, 4));
+      Toast.show({ type: "error", text1: error.response.data.message });
+    }
+    if (isSuccess) {
+      console.log(JSON.stringify(data, null, 4));
+      navigation.navigate("profile");
+      Toast.show({ type: "success", text1: data.data });
+    }
+  }, [isSuccess, error, data]);
   return (
     <View style={{ ...defaultStyle, padding: 20 }}>
       <HeaderTitle header={"Login"} />
@@ -67,7 +85,6 @@ export default function LoginPage({ route, navigation }) {
           containerStyle={styles.loginStyle}
           title={"Login"}
           icon={"login"}
-          isLoading={isLoading}
           onPress={submitHandler}
         />
 

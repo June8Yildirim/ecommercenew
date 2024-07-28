@@ -15,21 +15,14 @@ import ButtonBox from "./ui/Buttons/ButtonBox";
 import { Loader } from "./ui/Loader";
 import { launchCameraAsync } from "expo-image-picker";
 import ImagePicker from "./ImagePicker";
-import { useDispatch, useSelector } from "react-redux";
-import { useAuth } from "../utils/hooks/useAuth";
 import SquareButton from "./ui/Buttons/SquareButton";
-import { logout } from "../redux/store/actions/logout";
 
 const ProfilePage = ({ route, navigation }) => {
   const [avatar, setAvatar] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const isLoading = useAuth(navigation, dispatch, "login");
   const [isTakePhoto, setIsTakePhoto] = useState(false);
 
   const logoutHandler = () => {
-    dispatch(logout());
     // navigation.navigate("login");
   };
   const onImageHandler = async () => {
