@@ -16,15 +16,19 @@ export const login = asyncErrorHandler(async (req, res) => {
     );
   const user = await User.findOne({ email }).select("+password");
   if (!user)
-    return new ErrorHandler(
-      "You are not authorized please check your credentials",
-      403,
+    return next(
+      new ErrorHandler(
+        "You are not authorized please check your credentials",
+        403,
+      ),
     );
   const isAuthorized = await user.comparePassword(password);
   if (!isAuthorized)
-    return ErrorHandler(
-      "You are not authorized please check your credentials",
-      403,
+    return next(
+      new ErrorHandler(
+        "You are not authorized please check your credentials",
+        403,
+      ),
     );
   // TODO: change and placed in .env file
   const accessToken = user.generateToken("15m");
