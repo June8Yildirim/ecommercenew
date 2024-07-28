@@ -15,6 +15,7 @@ export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   console.log(">>>>>>>>>>>>>>>>>");
   console.log(req.user);
 
+  console.log(">>>>>>>>>>>>>>>>>");
   next();
 });
 export const isAdmin = asyncErrorHandler(async (req, res, next) => {

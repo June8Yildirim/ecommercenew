@@ -1,4 +1,5 @@
 export const sendToken = (res, statusCode, tokens, sendData) => {
+  console.log("=======================");
   res
     .status(statusCode)
     .cookie("token", "", {
