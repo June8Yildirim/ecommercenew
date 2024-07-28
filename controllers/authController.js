@@ -9,12 +9,17 @@ import DataURIParser from "datauri/parser.js";
 
 export const login = asyncErrorHandler(async (req, res) => {
   const { email, password } = req.body;
+  console.log(">>>>>>>>>>>>>>>>>");
   if (!email || !password)
-    return ErrorHandler(
-      "password or email is/are not valid please check them",
-      422,
+    return next(
+      new ErrorHandler(
+        "password or email is/are not valid please check them",
+        422,
+      ),
     );
+  console.log(">>>>>>>>>>>>>>>>>");
   const user = await User.findOne({ email }).select("+password");
+  console.log(">>>>>>>>>>>>>>>>>");
   if (!user)
     return next(
       new ErrorHandler(
@@ -22,7 +27,9 @@ export const login = asyncErrorHandler(async (req, res) => {
         403,
       ),
     );
+  console.log(">>>>>>>>>>>>>>>>>");
   const isAuthorized = await user.comparePassword(password);
+  console.log(">>>>>>>>>>>>>>>>>");
   if (!isAuthorized)
     return next(
       new ErrorHandler(
@@ -30,6 +37,8 @@ export const login = asyncErrorHandler(async (req, res) => {
         403,
       ),
     );
+
+  console.log(">>>>>>>>>>>>>>>>>");
   // TODO: change and placed in .env file
   const accessToken = user.generateToken("15m");
   const refreshToken = user.generateToken("1d");

@@ -1,6 +1,7 @@
 export const errorMiddleware = (err, req, res, next) => {
   err.message = err.message || "Internal Server Error";
   err.statusCode = err.statusCode || 500;
+  console.log(err.message);
   if (err.code === 11000) {
     err.message = `Duplicate key ${Object.keys(err.keyValue)} that requested  ${Object.keys(err.keyValue)} has been already using.`;
     err.statusCode = 400;

@@ -9,13 +9,7 @@ export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   if (!token) return next(new ErrorHandler("User is not authenticated", 401));
 
   const decodeData = jwt.verify(token, process.env.SECRET);
-  console.log("<<<<<<<<<<<<<<<", process.env.SECRET);
-  console.log(decodeData);
   req.user = await User.findById(decodeData._id);
-  console.log(">>>>>>>>>>>>>>>>>");
-  console.log(req.user);
-
-  console.log(">>>>>>>>>>>>>>>>>");
   next();
 });
 export const isAdmin = asyncErrorHandler(async (req, res, next) => {
