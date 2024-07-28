@@ -90,7 +90,7 @@ export const logOut = asyncErrorHandler(async (req, res, next) => {
   console.log("=======================");
   res
     .status(200)
-    .cookies("token", { ...cookieOptions, expires: new Date(Date.now()) })
+    .cookies("token", "", { ...cookieOptions, expires: new Date(Date.now()) })
     .json({ success: true, message: "Logged Out successfully" });
 });
 
