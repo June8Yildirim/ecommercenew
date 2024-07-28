@@ -7,7 +7,7 @@ import cloudinary from "cloudinary";
 import { sendEmail } from "../utils/sendEmail.js";
 import DataURIParser from "datauri/parser.js";
 
-export const login = asyncErrorHandler(async (req, res) => {
+export const login = asyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
   console.log(">>>>>>>>>>>>>>>>>");
   if (!email || !password)
