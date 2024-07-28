@@ -1,0 +1,37 @@
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { flame, light, liver } from "../../../assets/Colors";
+
+export const CategoryButton = ({ title, index, onPress, id, category }) => {
+  console.log(id);
+  return (
+    <TouchableOpacity
+      style={[
+        styles.container,
+        { backgroundColor: index % 2 === 0 ? flame[500] : flame[200] },
+      ]}
+      onPress={() => onPress(id, title)}
+    >
+      <Text style={[styles.font]}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 10,
+    marginVertical: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    height: 50,
+    elevation: 10,
+  },
+  font: {
+    fontSize: 12,
+    textAlign: "center",
+    padding: 10,
+    color: light[100],
+  },
+});
