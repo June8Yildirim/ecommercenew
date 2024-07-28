@@ -9,7 +9,7 @@ import DataURIParser from "datauri/parser.js";
 
 export const login = asyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(">>>>>>>>>>>>>>>>>");
+
   if (!email || !password)
     return next(
       new ErrorHandler(
@@ -17,9 +17,8 @@ export const login = asyncErrorHandler(async (req, res, next) => {
         422,
       ),
     );
-  console.log(">>>>>>>>>>>>>>>>>");
+
   const user = await User.findOne({ email }).select("+password");
-  console.log(">>>>>>>>>>>>>>>>>");
   if (!user)
     return next(
       new ErrorHandler(
@@ -27,9 +26,8 @@ export const login = asyncErrorHandler(async (req, res, next) => {
         403,
       ),
     );
-  console.log(">>>>>>>>>>>>>>>>>");
+
   const isAuthorized = await user.comparePassword(password);
-  console.log(">>>>>>>>>>>>>>>>>");
   if (!isAuthorized)
     return next(
       new ErrorHandler(
@@ -38,7 +36,6 @@ export const login = asyncErrorHandler(async (req, res, next) => {
       ),
     );
 
-  console.log(">>>>>>>>>>>>>>>>>");
   // TODO: change and placed in .env file
   const accessToken = user.generateToken("15m");
   const refreshToken = user.generateToken("1d");
@@ -56,7 +53,10 @@ export const login = asyncErrorHandler(async (req, res, next) => {
     address: user.phone,
   };
 
-  sendToken(res, 200, accessToken, "User Authorized");
+  sendToken(res, 200, accessToken, {
+    user: optimizedUser,
+    message: "User Authorized",
+  });
   // const tokens = { accessToken, refreshToken };
   // res.cookie("accessToken", accessToken, {
   //   ...cookieOptions,
