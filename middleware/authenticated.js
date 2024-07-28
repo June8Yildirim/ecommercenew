@@ -4,10 +4,12 @@ import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
-  const token = req.cookies.accessToken;
+  console.log(req.cookies, "-----------");
+  const token = req.cookies.token;
 
   if (!token) return next(new ErrorHandler("User is not authenticated", 401));
 
+  console.log("MMMMMMMMMMMMMMMM");
   const decodeData = jwt.verify(token, process.env.SECRET);
   req.user = await User.findById(decodeData._id);
 

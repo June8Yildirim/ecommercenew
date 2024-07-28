@@ -5,7 +5,6 @@ import { cookieOptions, sendToken } from "../utils/sendToken.js";
 import { getDataUri } from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
 import { sendEmail } from "../utils/sendEmail.js";
-import DataURIParser from "datauri/parser.js";
 
 export const login = asyncErrorHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -35,21 +34,25 @@ export const login = asyncErrorHandler(async (req, res) => {
   else user.tokens.push(refreshToken);
   await user.save();
 
-  const optimizedUser = {
+  const optUser = {
+    id: user._id,
     name: user.name,
     email: user.email,
     role: user.role,
-    phone: user.phone,
-    address: user.phone,
+    token: accessToken,
   };
-  const tokens = { accessToken, refreshToken };
-  res.cookie("accessToken", accessToken, {
-    ...cookieOptions,
-  });
-  res.cookie("refreshToken", refreshToken, {
-    ...cookieOptions,
-  });
-  res.status(200).json({ user });
+  sendToken(res, 200, accessToken, "User Authorized");
+  // sendToken(res, 200, [accessToken, refreshToken], optUser);
+  // res.cookie("accessToken", accessToken, {
+  //   ...cookieOptions,
+  // });
+  // res.cookie("refreshToken", refreshToken, {
+  //   ...cookieOptions,
+  // });
+  //
+  // console.log(req.cookies);
+  // console.log("<<<<<<<<<<<<<<<");
+  // res.status(200).json({ user });
 });
 
 export const createUser = asyncErrorHandler(async (req, res, next) => {
@@ -81,13 +84,22 @@ export const getUserProfile = asyncErrorHandler(async (req, res, next) => {
   const id = req.user._id;
   const user = await User.findById(id);
   if (!user) return next(new ErrorHandler("User not found", 403));
+  console.log(user);
+  const optUser = {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    token: accessToken,
+  };
   res.status(200).json({ user });
 });
 
 export const logOut = asyncErrorHandler(async (req, res, next) => {
+  console.log("...............");
   res
     .status(200)
-    .cookies("authToken", { ...cookieOptions, expires: new Date(Date.now()) })
+    .cookie("authToken", { ...cookieOptions, expires: new Date(Date.now()) })
     .json({ success: true, message: "Logged Out successfully" });
 });
 
