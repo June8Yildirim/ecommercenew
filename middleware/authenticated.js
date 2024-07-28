@@ -13,7 +13,7 @@ export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   console.log(decodeData);
   req.user = await User.findById(decodeData._id);
   console.log(">>>>>>>>>>>>>>>>>");
-  console.log(user);
+  console.log(req.user);
 
   next();
 });
