@@ -27,6 +27,6 @@ router.patch(
 router.patch("updateAvatar", isAuthenticated, updateAvatar);
 router.route("/forget_password").post(forgetPassword).patch(resetPassword);
 router.get("/profile", isAuthenticated, getUserProfile);
-router.get("/logout", isAuthenticated, logOut);
+router.get("/logout", logOut);
 
 export default router;
