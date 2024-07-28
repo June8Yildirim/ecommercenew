@@ -9,7 +9,6 @@ export const userReducer = createReducer({}, (builder) => {
     })
     .addCase("logoutRequest", (state) => {
       state.isLoading = true;
-      console.log("Request");
     });
   builder
     .addCase("loginSuccess", (state, action) => {
@@ -21,7 +20,6 @@ export const userReducer = createReducer({}, (builder) => {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
-      console.log("Success");
     })
     .addCase("logoutSuccess", (state, action) => {
       state.isLoading = false;
@@ -44,9 +42,11 @@ export const userReducer = createReducer({}, (builder) => {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.error = action.payload;
-      console.log("Failed");
     });
   builder.addCase("clearError", (state, action) => {
     state.error = null;
+  });
+  builder.addCase("clearMessage", (state) => {
+    state.message = null;
   });
 });

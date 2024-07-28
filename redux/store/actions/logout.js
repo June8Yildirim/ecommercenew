@@ -7,10 +7,11 @@ export const logout = (user) => async (dispatch) => {
 
     // axios.defaults.withCredentials=true
     const { data } = await axios.get(`${baseURL}/auth/logout`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
       withCredentials: true,
     });
-    console.log(">>>>>>>>>>>>>>");
-    console.log("logout", JSON.stringify(data, null, 4));
     dispatch({ type: "logoutSuccess", payload: data.message });
   } catch (error) {
     dispatch({ type: "logoutFailed", payload: error.response.data.message });

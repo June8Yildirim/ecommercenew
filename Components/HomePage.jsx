@@ -114,36 +114,36 @@ export const products = [
     ],
   },
 ];
+export const categories = [
+  {
+    name: "Home Electronics",
+    id: "el1",
+  },
+  {
+    name: "Computer",
+    id: "comp1",
+  },
+  {
+    name: "Games",
+    id: "gam1",
+  },
+  {
+    name: "Movies",
+    id: "mov1",
+  },
+  {
+    name: "Books",
+    id: "boo1",
+  },
+  {
+    name: "Clothing",
+    id: "cl1",
+  },
+];
 export default function HomePage() {
   const [category, setCategory] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const categories = [
-    {
-      name: "Home Electronics",
-      id: "el1",
-    },
-    {
-      name: "Computer",
-      id: "comp1",
-    },
-    {
-      name: "Games",
-      id: "gam1",
-    },
-    {
-      name: "Movies",
-      id: "mov1",
-    },
-    {
-      name: "Books",
-      id: "boo1",
-    },
-    {
-      name: "Clothing",
-      id: "cl1",
-    },
-  ];
   const onPressHandler = (item) => {
     setCategory(item);
   };
@@ -161,15 +161,18 @@ export default function HomePage() {
       <View>
         <FlatList
           data={categories}
-          keyExtractor={(item) => item}
-          renderItem={({ item }) => (
+          keyExtractor={(item, index) => index}
+          renderItem={({ item, index }) => (
             <CategoryButton
-              title={item}
+              title={item.name}
+              index={index}
+              id={item.id}
               category={category}
               onPress={() => onPressHandler(item)}
             />
           )}
           horizontal
+          showsHorizontalScrollIndicator={false}
         />
       </View>
       {isSearching && (

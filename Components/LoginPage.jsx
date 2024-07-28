@@ -20,7 +20,6 @@ export default function LoginPage({ route, navigation }) {
 
   const dispatch = useDispatch();
   const isLoading = useAuth(navigation, dispatch, "profile");
-  console.log("isLoading login", isLoading);
 
   const submitHandler = () => {
     dispatch(login(user));

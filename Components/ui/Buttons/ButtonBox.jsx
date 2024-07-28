@@ -12,6 +12,7 @@ const ButtonBox = () => {
   // const isloading = useAuth(navigation, dispatch, "login");
   const logoutHandler = () => {
     dispatch(logout());
+    navigation.navigate("home");
   };
   return (
     <>
@@ -55,7 +56,7 @@ const ButtonBox = () => {
         <SquareButton
           icon={"exit-to-app"}
           title={"Sign Out"}
-          onPress={() => logoutHandler()}
+          onPress={() => dispatch(logout())}
         />
       </View>
     </>

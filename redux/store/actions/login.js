@@ -8,7 +8,7 @@ export const login = (user) => async (dispatch) => {
     const { data } = await axios.post(`${baseURL}/auth`, user, {
       headers: { "Content-Type": "application/json" },
     });
-    console.log("login", JSON.stringify(data, null, 4));
+    // console.log("login", JSON.stringify(data, null, 4));
     dispatch({ type: "loginSuccess", payload: data });
   } catch (error) {
     dispatch({ type: "loginFailed", payload: error.response.data.message });
@@ -25,7 +25,6 @@ export const loadUser = () => async (dispatch) => {
       },
       withCredentials: true,
     });
-    console.log("loadUser", JSON.stringify(data, null, 4));
     dispatch({ type: "loadUserSuccess", payload: data.user });
   } catch (error) {
     dispatch({ type: "loadUserFailure", payload: error.response.data.message });

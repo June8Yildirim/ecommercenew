@@ -6,11 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 const Footer = ({ activeRoute = "home" }) => {
-  const { isLoading, isAuthenticated, user } = useSelector(
-    (state) => state.auth,
-  );
-  console.log("<footer isAuthenticated>", user);
-  // console.log("<footer isLoading>", isLoading);
+  const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
   const navigation = useNavigation();
   const shopping = activeRoute === "cart" ? "shopping" : "shopping-outline";
   const account = !isAuthenticated
@@ -38,6 +34,7 @@ const Footer = ({ activeRoute = "home" }) => {
           color={light[100]}
           size={50}
           icon={account}
+          onPress={() => navigation.navigate(navigateTo)}
         />
       </View>
       <View style={styles.homeBtn}>
