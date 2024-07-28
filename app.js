@@ -1,5 +1,5 @@
-import { connectDB } from "./database/mongodb.js";
 import { app } from "./server.js";
+import { connectDB } from "./database/mongodb.js";
 import dotenv from "dotenv";
 dotenv.config();
 const port = process.env.PORT; //|| 5000;
