@@ -87,6 +87,7 @@ export const getUserProfile = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const logOut = asyncErrorHandler(async (req, res, next) => {
+  console.log("=======================");
   res
     .status(200)
     .cookies("token", { ...cookieOptions, expires: new Date(Date.now()) })
