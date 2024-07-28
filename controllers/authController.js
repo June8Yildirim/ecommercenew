@@ -42,14 +42,16 @@ export const login = asyncErrorHandler(async (req, res) => {
     phone: user.phone,
     address: user.phone,
   };
-  const tokens = { accessToken, refreshToken };
-  res.cookie("accessToken", accessToken, {
-    ...cookieOptions,
-  });
-  res.cookie("refreshToken", refreshToken, {
-    ...cookieOptions,
-  });
-  res.status(200).json({ user });
+
+  sendToken(res, 200, accessToken, "User Authorized");
+  // const tokens = { accessToken, refreshToken };
+  // res.cookie("accessToken", accessToken, {
+  //   ...cookieOptions,
+  // });
+  // res.cookie("refreshToken", refreshToken, {
+  //   ...cookieOptions,
+  // });
+  // res.status(200).json({ user });
 });
 
 export const createUser = asyncErrorHandler(async (req, res, next) => {
@@ -87,7 +89,7 @@ export const getUserProfile = asyncErrorHandler(async (req, res, next) => {
 export const logOut = asyncErrorHandler(async (req, res, next) => {
   res
     .status(200)
-    .cookies("authToken", { ...cookieOptions, expires: new Date(Date.now()) })
+    .cookies("token", { ...cookieOptions, expires: new Date(Date.now()) })
     .json({ success: true, message: "Logged Out successfully" });
 });
 

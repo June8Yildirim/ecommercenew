@@ -1,7 +1,7 @@
 export const sendToken = (res, statusCode, tokens, sendData) => {
   res
     .status(statusCode)
-    .cookie("authToken", tokens, {
+    .cookie("token", tokens, {
       ...cookieOptions,
       expires: new Date(Date.now() + 15 * 60 * 1000),
     })
