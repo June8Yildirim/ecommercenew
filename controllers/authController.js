@@ -20,12 +20,7 @@ export const login = asyncErrorHandler(async (req, res, next) => {
 
   const user = await User.findOne({ email }).select("+password");
   if (!user)
-    return next(
-      new ErrorHandler(
-        "You are not authorized please check your credentials",
-        403,
-      ),
-    );
+    return next(new ErrorHandler("Your entered email not registered.", 403));
 
   const isAuthorized = await user.comparePassword(password);
   if (!isAuthorized)
@@ -94,13 +89,12 @@ export const createUser = asyncErrorHandler(async (req, res, next) => {
 
 export const getUserProfile = asyncErrorHandler(async (req, res, next) => {
   const id = req.user._id;
-  const user = await User.findById(id);
+  const user = await User.findById(id).select("-");
   if (!user) return next(new ErrorHandler("User not found", 403));
   res.status(200).json({ user });
 });
 
 export const logOut = asyncErrorHandler(async (req, res, next) => {
-  console.log("=======================");
   res
     .status(200)
     .cookie("token", "", { ...cookieOptions, expires: new Date(Date.now()) })
