@@ -102,7 +102,9 @@ export const logOut = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const forgetPassword = asyncErrorHandler(async (req, res, next) => {
+  console.log(req.body);
   const { email } = req.body;
+  console.log(email);
 
   const max = 999999;
   const min = 100000;
@@ -114,9 +116,9 @@ export const forgetPassword = asyncErrorHandler(async (req, res, next) => {
   const otp_expire = 15 * 60 * 6000;
   const otp = Math.floor(Math.random() * (max - min) + min);
   user.oneTimePassword = otp;
-  user.oneTimePasswordExpire = otp;
+  user.oneTimePasswordExpire = new Date(Date.now() + otp_expire);
   await user.save();
-  const message = "";
+  const message = `Your one time password to reset password is generated.\nThe password is ${otp} .\nPlease check your email box.`;
   try {
     await sendEmail(
       "One Time Password to reset current password",
