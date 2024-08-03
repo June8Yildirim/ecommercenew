@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import { stripe } from "../app.js";
 
 export const createOrder = asyncErrorHandler(async (req, res, next) => {
+  console.log(req.user);
   const { id: userId } = req.user;
 
   console.log("============================>");
