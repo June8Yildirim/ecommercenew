@@ -5,13 +5,27 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import { stripe } from "../app.js";
 
 export const createOrder = asyncErrorHandler(async (req, res, next) => {
-  console.log(req.user);
-  const { id: userId } = req.user;
+  const { _id: userId } = req.user;
 
-  console.log("============================>");
   if (!userId) return next(new ErrorHandler("User id does not find"), 403);
-  const { orderItems, subTotal, shippingPrice, totalCost, address } = req.body;
-  if (!orderItems || !subTotal || !shippingPrice || !totalCost || !address)
+  const {
+    orderItems,
+    subTotal,
+    shippingPrice,
+    tax,
+    paymentType,
+    totalCost,
+    address,
+  } = req.body;
+  if (
+    !orderItems ||
+    !subTotal ||
+    !tax ||
+    !paymentType ||
+    !shippingPrice ||
+    !totalCost ||
+    !address
+  )
     return next(
       new ErrorHandler(
         "Please provide necessary fields to create new order",
@@ -22,37 +36,47 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
   if (!userId)
     return next(new ErrorHandler("The owner of order does not provided"), 403);
 
-  console.log("===========================>>");
+  const orders = [];
   let product = undefined;
   for (const item of orderItems) {
     const { id } = item;
     product = await Product.findById(id);
     if (!product)
-      return next(
-        new ErrorHandler("The owner of order does not provided"),
-        403,
-      );
+      return next(new ErrorHandler("The user not order this item"), 403);
+
     const { stock, quantity } = product;
+
     if (stock < 1)
       return next(new ErrorHandler("There is not enough stock in inventory."));
 
+    const pr = await Product.findByIdAndUpdate(
+      id,
+      { stock: stock - quantity },
+      { new: true, upsert: true },
+    );
     //Reduce from stock
-    product.stock -= quantity;
-    product.save();
+    orders.push({ productId: pr._id, quantity: pr.quantity, price: pr.price });
   }
-  console.log("==========================>>>");
-  const order = await Order.create({
-    owner: userId,
-    ...req.body,
-    lastUpdatesStatus: [{ date: Date.now(), lastStatus: "Preparing" }],
-  });
+  try {
+    const order = await Order.create({
+      owner: userId,
+      orderItems: orders,
+      subTotal,
+      taxPrice: tax,
+      shippingPrice,
+      address,
+      totalCost,
+      paymentType,
+    });
 
-  console.log("=========================>>>>");
-  res.status(201).json({
-    message: "Orders created",
-    orderStatus: order.orderStatus,
-    paymentStatus: order.paymentStatus,
-  });
+    res.status(201).json({
+      message: "Orders created",
+      orderStatus: order.orderStatus,
+      paymentStatus: order.paymentStatus,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const getAdminOrders = asyncErrorHandler(async (req, res, next) => {
@@ -60,8 +84,9 @@ export const getAdminOrders = asyncErrorHandler(async (req, res, next) => {
   res.status(200).json({ orders });
 });
 export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
-  const { id: userId } = req.user;
-  const orders = await Order.find({ owner: userId }).populate("Product"); //.populate("User");
+  const { _id: userId } = req.user;
+  //TODO: get order's product and owner details
+  const orders = await Order.find({ owner: userId }); //.populate("Product"); //.populate("User");
   res.status(200).json({ orders });
 });
 

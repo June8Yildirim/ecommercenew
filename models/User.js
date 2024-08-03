@@ -47,6 +47,9 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  country: String,
+  state: String,
+  zipCode: String,
   oneTimePassword: Number,
   oneTimePasswordExpire: Date,
   resetPasswordToken: String,
@@ -56,10 +59,8 @@ userSchema.pre("save", async function (next) {
   const user = this;
   if (!user.isModified("password")) return next();
   const salt = await bcrypt.genSalt(10);
-  console.log("new password", user.password);
   const pass = await bcrypt.hash(user.password, salt);
 
-  console.log("Hashed pass ", pass);
   user.password = pass;
 });
 

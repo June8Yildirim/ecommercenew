@@ -8,7 +8,6 @@ import { sendEmail } from "../utils/sendEmail.js";
 
 export const login = asyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(">>>>>>>>>>>>>>>>>>>>>>getAllProducts");
 
   if (!email || !password)
     return next(
@@ -45,9 +44,11 @@ export const login = asyncErrorHandler(async (req, res, next) => {
     email: user.email,
     role: user.role,
     phone: user.phone,
-    address: user.phone,
+    address: user.address,
+    country: user.country,
+    state: user.state,
+    zipCode: user.zipCode,
   };
-
   sendToken(res, 200, accessToken, {
     user: optimizedUser,
     message: "User Authorized",
@@ -81,9 +82,19 @@ export const createUser = asyncErrorHandler(async (req, res, next) => {
 
 export const getUserProfile = asyncErrorHandler(async (req, res, next) => {
   const id = req.user._id;
-  const user = await User.findById(id).select("-");
+  const user = await User.findById(id);
+  const optimizedUser = {
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    phone: user.phone,
+    address: user.address,
+    country: user.country,
+    state: user.state,
+    zipCode: user.zipCode,
+  };
   if (!user) return next(new ErrorHandler("User not found", 403));
-  res.status(200).json({ user });
+  res.status(200).json({ optimizedUser });
 });
 
 export const logOut = asyncErrorHandler(async (req, res, next) => {
@@ -128,7 +139,6 @@ export const forgetPassword = asyncErrorHandler(async (req, res, next) => {
 
 export const resetPassword = asyncErrorHandler(async (req, res, next) => {
   const { oneTimePassword, password } = req.body;
-  console.log(req.body);
   const user = await User.findOne({
     oneTimePassword,
     oneTimePasswordExpire: { $gt: Date.now() },

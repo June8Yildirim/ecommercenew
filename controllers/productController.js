@@ -54,8 +54,6 @@ export const getAdminProducts = asyncErrorHandler(async (req, res, next) => {
 
 export const getAllProducts = asyncErrorHandler(async (req, res, next) => {
   const { query, category } = req.query;
-  console.log(query, category);
-  console.log(">>>>>>>>>>>>>>>>>>>>>>getAllProducts");
   const products = await Product.find({
     $or: [
       {
@@ -69,7 +67,6 @@ export const getAllProducts = asyncErrorHandler(async (req, res, next) => {
       },
     ],
   });
-  console.log(products);
   res.status(201).json({ products });
 });
 

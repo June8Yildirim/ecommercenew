@@ -12,7 +12,6 @@ export const createCategory = asyncErrorHandler(async (req, res, next) => {
 
 export const getAllCategories = asyncErrorHandler(async (req, res, next) => {
   const categories = await Category.find({});
-  console.log(categories);
   res.status(200).json({ categories });
 });
 

@@ -9,7 +9,10 @@ import {
 import { isAdmin, isAuthenticated } from "../middleware/authenticated.js";
 const router = express.Router();
 
-router.route("/").get(getAllCategories).post(isAuthenticated, createCategory);
+router
+  .route("/")
+  .post(isAuthenticated, isAdmin, createCategory)
+  .get(getAllCategories);
 router
   .route("/:id")
   .get(getCategory)
