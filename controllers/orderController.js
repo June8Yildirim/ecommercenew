@@ -7,6 +7,7 @@ import { stripe } from "../app.js";
 export const createOrder = asyncErrorHandler(async (req, res, next) => {
   const { id: userId } = req.user;
 
+  console.log("============================>");
   if (!userId) return next(new ErrorHandler("User id does not find"), 403);
   const { orderItems, subTotal, shippingPrice, totalCost, address } = req.body;
   if (!orderItems || !subTotal || !shippingPrice || !totalCost || !address)
@@ -20,6 +21,7 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
   if (!userId)
     return next(new ErrorHandler("The owner of order does not provided"), 403);
 
+  console.log("===========================>>");
   let product = undefined;
   for (const item of orderItems) {
     const { productId } = item;
@@ -37,12 +39,14 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
     product.stock -= quantity;
     product.save();
   }
+  console.log("==========================>>>");
   const order = await Order.create({
     owner: userId,
     ...req.body,
     lastUpdatesStatus: [{ date: Date.now(), lastStatus: "Preparing" }],
   });
 
+  console.log("=========================>>>>");
   res.status(201).json({
     message: "Orders created",
     orderStatus: order.orderStatus,

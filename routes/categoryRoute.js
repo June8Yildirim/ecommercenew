@@ -11,8 +11,8 @@ const router = express.Router();
 
 router
   .route("/")
-  .post(isAuthenticated, isAdmin, createCategory)
-  .get(getAllCategories);
+  .get(getAllCategories)
+  .post(isAuthenticated, isAdmin, createCategory);
 router
   .route("/:id")
   .get(getCategory)

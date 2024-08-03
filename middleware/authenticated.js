@@ -5,7 +5,10 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   const token = req.cookies.token;
-  console.log(token);
+  console.log(req.cookies.auth);
+  console.log(req.cookies.authToken);
+
+  console.log("token", token);
   if (!token) return next(new ErrorHandler("User is not authenticated", 401));
 
   const decodeData = jwt.verify(token, process.env.SECRET);

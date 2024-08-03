@@ -1,7 +1,7 @@
 import { Schema, Types, model } from "mongoose";
 
 const productSchema = new Schema({
-  title: {
+  name: {
     type: String,
     required: [true, "Please enter Product title"],
   },

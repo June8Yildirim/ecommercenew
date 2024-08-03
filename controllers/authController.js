@@ -5,7 +5,6 @@ import { cookieOptions, sendToken } from "../utils/sendToken.js";
 import { getDataUri } from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
 import { sendEmail } from "../utils/sendEmail.js";
-import DataURIParser from "datauri/parser.js";
 
 export const login = asyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
@@ -32,7 +31,7 @@ export const login = asyncErrorHandler(async (req, res, next) => {
     );
 
   // TODO: change and placed in .env file
-  const accessToken = user.generateToken("15m");
+  const accessToken = user.generateToken("1h");
   const refreshToken = user.generateToken("1d");
 
   //Check the users refreshToken
@@ -52,14 +51,6 @@ export const login = asyncErrorHandler(async (req, res, next) => {
     user: optimizedUser,
     message: "User Authorized",
   });
-  // const tokens = { accessToken, refreshToken };
-  // res.cookie("accessToken", accessToken, {
-  //   ...cookieOptions,
-  // });
-  // res.cookie("refreshToken", refreshToken, {
-  //   ...cookieOptions,
-  // });
-  // res.status(200).json({ user });
 });
 
 export const createUser = asyncErrorHandler(async (req, res, next) => {
@@ -102,9 +93,7 @@ export const logOut = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const forgetPassword = asyncErrorHandler(async (req, res, next) => {
-  console.log(req.body);
   const { email } = req.body;
-  console.log(email);
 
   const max = 999999;
   const min = 100000;
@@ -138,7 +127,7 @@ export const forgetPassword = asyncErrorHandler(async (req, res, next) => {
 
 export const resetPassword = asyncErrorHandler(async (req, res, next) => {
   const { oneTimePassword, password } = req.body;
-
+  console.log(req.body);
   const user = await User.findOne({
     oneTimePassword,
     oneTimePasswordExpire: { $gt: Date.now() },
