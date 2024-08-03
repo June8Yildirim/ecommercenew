@@ -3,17 +3,18 @@ import React from "react";
 import IconButton from "./IconButton";
 import { flame, light } from "../../../assets/Colors";
 
-const SquareButton = ({ onPress, icon, title, reverse = false }) => {
+const SquareButton = ({ isLoading, onPress, icon, title, reverse = false }) => {
   return (
     <IconButton
       icon={icon}
       color={light[100]}
       size={60}
       title={title}
-      backgroundColor={reverse ? flame[200] : flame[900]}
+      isLoading={isLoading}
+      backgroundColor={reverse ? flame[500] : light[700]}
       style={[
         styles.button,
-        { backgroundColor: reverse ? flame[200] : flame[900] },
+        { backgroundColor: reverse ? flame[500] : light[700] },
       ]}
       onPress={onPress}
     />

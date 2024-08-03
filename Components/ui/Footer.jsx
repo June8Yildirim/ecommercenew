@@ -24,7 +24,7 @@ const Footer = ({ activeRoute = "home" }) => {
       <View style={styles.textContainer}>
         <IconButton
           backgroundColor={flame[200]}
-          color={flame[100]}
+          color={light[100]}
           size={50}
           icon={shopping}
           onPress={() => navigation.navigate("cart")}

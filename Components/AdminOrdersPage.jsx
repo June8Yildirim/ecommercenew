@@ -8,7 +8,7 @@ import OrderItem from "./ui/OrderItem";
 
 const AdminOrdersPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const updateHandler = () => {};
+  const updateHandler = () => { };
   return (
     <View style={{ ...defaultStyle, backgroundColor: light[100] }}>
       <Header back={true} />

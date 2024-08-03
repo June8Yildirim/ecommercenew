@@ -14,17 +14,12 @@ const CameraPage = () => {
   const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState(CameraType.back);
   const [camera, setCamera] = useState(null);
-  console.log(permission);
   if (permission)
     return (
       <View>
         <Text>fsf</Text>
       </View>
     );
-  //
-  // console.log(permission);
-  // useEffect(() => {
-  //   if (permission) {
   if (permission && !permission.granted) {
     return (
       <View style={styles.container}>
@@ -47,7 +42,6 @@ const CameraPage = () => {
       aspect: [1, 1],
       quality: 1,
     });
-    console.log(data);
   };
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));

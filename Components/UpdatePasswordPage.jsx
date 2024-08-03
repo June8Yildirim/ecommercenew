@@ -5,24 +5,28 @@ import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { flame, light } from "../assets/Colors";
 import GeneralButton from "./ui/Buttons/GeneralButton";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../redux/store/actions/auth/password";
+import { useAuth } from "../utils/hooks/useAuth";
+import HeaderTitle from "./ui/HeaderTitle";
 
-const UpdatePasswordPage = ({ route, navigation, password }) => {
+const UpdatePasswordPage = ({ route, navigation }) => {
   const [updatedPassword, setUpdatedPassword] = useState("");
-  const [oldPassword, setOldPassword] = useState(password);
-  const { navigate } = navigation;
-  const [isFocused, setIsFocused] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const dispatch = useDispatch();
   const dimesion = Dimensions.get("window");
   const { width, height } = dimesion;
   const availableHeight = height * 0.75;
   const availableWidht = width * 0.65;
+  const isLoading = useAuth(navigation, dispatch, "profile");
+
+  //TODO: add validation
   const changePasswordHandler = () => {
-    console.log("Password is change");
+    dispatch(changePassword({ oldPassword, newPassword: updatedPassword }));
   };
   return (
     <View style={{ ...defaultStyle, padding: 20 }}>
-      <View style={{ marginVertical: 30 }}>
-        <Text style={styles.headerText}>Change Password</Text>
-      </View>
+      <HeaderTitle header={"Change Password"} />
       <ScrollView
         contentContainerStyle={[
           styles.Outercontainer,
@@ -34,30 +38,21 @@ const UpdatePasswordPage = ({ route, navigation, password }) => {
             label={"Old Password"}
             value={oldPassword}
             secureTextEntry={true}
-            style={[
-              styles.input,
-              { backgroundColor: isFocused ? "#FF0000" : light[700] },
-            ]}
+            style={[styles.input]}
             onChangeText={(pass) => setOldPassword(pass)}
           />
           <TextInput
             label={"New Password"}
             value={updatedPassword}
             secureTextEntry={true}
-            style={[
-              styles.input,
-              { backgroundColor: isFocused ? "#FF0000" : light[700] },
-            ]}
+            style={[styles.input]}
             onChangeText={(pass) => setUpdatedPassword(pass)}
           />
           <TextInput
             label={"Verify Password"}
             value={updatedPassword}
             secureTextEntry={true}
-            style={[
-              styles.input,
-              { backgroundColor: isFocused ? light[900] : light[700] },
-            ]}
+            style={[styles.input]}
             onChangeText={(pass) => setUpdatedPassword(pass)}
           />
         </View>
@@ -75,7 +70,7 @@ const UpdatePasswordPage = ({ route, navigation, password }) => {
 
 const styles = StyleSheet.create({
   Outercontainer: {
-    backgroundColor: flame[900],
+    backgroundColor: light[700],
     alignItems: "center",
     justifyContent: "center",
   },
@@ -106,7 +101,7 @@ const styles = StyleSheet.create({
   },
   loginStyle: {
     width: 200,
-    backgroundColor: flame[200],
+    backgroundColor: flame[500],
   },
   btnStyle: {
     width: 200,

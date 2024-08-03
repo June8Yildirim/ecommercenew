@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import IconButton from "./IconButton";
-import { flame, light, liver } from "../../../assets/Colors";
+import { flame, light } from "../../../assets/Colors";
 
 const IncrementDecrementButtons = ({
   quantity,
@@ -14,7 +14,7 @@ const IncrementDecrementButtons = ({
       <View style={[styles.quantityContainer, { ...containerStyle }]}>
         <IconButton
           icon={"minus"}
-          size={22}
+          size={28}
           backgroundColor={flame[500]}
           onPress={decrementBtn}
           color={light[100]}
@@ -22,7 +22,7 @@ const IncrementDecrementButtons = ({
         <Text style={styles.quantity}>{quantity}</Text>
         <IconButton
           icon={"plus"}
-          size={22}
+          size={28}
           backgroundColor={flame[500]}
           color={light[100]}
           onPress={incrementBtn}
@@ -36,18 +36,18 @@ export default IncrementDecrementButtons;
 
 const styles = StyleSheet.create({
   quantity: {
-    color: liver[800],
+    color: light[800],
     fontWeight: "semibold",
+    fontSize: 15,
+    marginHorizontal: 10,
   },
   quantityOuterContainer: {
-    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    alignSelf: "center",
   },
   quantityContainer: {
+    justifyContent: "space-between",
     flexDirection: "row",
     justifyContent: "flex-end",
-    gap: 10,
   },
 });

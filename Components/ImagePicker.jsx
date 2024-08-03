@@ -3,6 +3,8 @@ import {
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
+  launchImageLibraryAsync,
+  requestMediaLibraryPermissionsAsync,
 } from "expo-image-picker";
 import {
   View,
@@ -14,6 +16,7 @@ import {
 } from "react-native";
 import IconButton from "./ui/Buttons/IconButton";
 import { flame, light } from "../assets/Colors";
+import Toast from "react-native-toast-message";
 
 function ImagePicker({ setIsTakePhoto, setAvatar }) {
   const [selectedImage, setSelectedImage] = useState("");
@@ -36,6 +39,25 @@ function ImagePicker({ setIsTakePhoto, setAvatar }) {
     }
     return true;
   };
+  const chooseImageFromLibrary = async () => {
+    const permission = await requestMediaLibraryPermissionsAsync();
+    if (!permission)
+      return Toast.show({
+        type: "error",
+        text2: "Needs Permission to access the galery",
+      });
+
+    const data = await launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+    });
+    setSelectedImage(data.assets[0]);
+    if (selectedImage) {
+      setAvatar(selectedImage);
+      setIsTakePhoto(false);
+    }
+  };
   const takeImageHandler = async () => {
     const hasPermission = await verifyPermissions();
     if (!hasPermission) {
@@ -48,7 +70,7 @@ function ImagePicker({ setIsTakePhoto, setAvatar }) {
       quality: 0.5,
     });
     if (!image.canceled) {
-      setSelectedImage(image.assets[0].uri);
+      setSelectedImage(image.assets[0]);
     }
   };
   const imageSelectionHandler = () => {
@@ -77,10 +99,22 @@ function ImagePicker({ setIsTakePhoto, setAvatar }) {
         <IconButton
           backgroundColor={flame[200]}
           color={light[100]}
+          icon="image"
+          textColor={flame[900]}
+          onPress={chooseImageFromLibrary}
+          title={"Galery"}
+          size={40}
+          style={{ marginHorizontal: 20 }}
+        />
+        <IconButton
+          backgroundColor={flame[200]}
+          color={light[100]}
           icon="camera"
           textColor={flame[900]}
           onPress={takeImageHandler}
-          title={"Capture Image"}
+          title={"Camera"}
+          size={40}
+          style={{ marginHorizontal: 20 }}
         />
         <IconButton
           icon={"cancel"}
@@ -88,7 +122,9 @@ function ImagePicker({ setIsTakePhoto, setAvatar }) {
           color={light[100]}
           textColor={flame[900]}
           onPress={() => setIsTakePhoto(false)}
-          title={"Capture Image"}
+          size={40}
+          style={{ marginHorizontal: 20 }}
+          title={"Cancel"}
         />
       </View>
     </View>

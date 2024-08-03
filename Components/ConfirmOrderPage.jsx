@@ -1,34 +1,37 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { defaultStyle } from "../assets/sytles";
 import Header from "./ui/Header";
 import ConfirmOrderItem from "./ui/ConfirmOrderItems";
 import { Heading } from "./ui/Heading";
-import { cartItems } from "./CartPage";
-import PriceTags from "./ui/PriceTags";
-import { chestnut, flame, light } from "../assets/Colors";
+import { flame, light } from "../assets/Colors";
 import GeneralButton from "./ui/Buttons/GeneralButton";
-import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { costCalculation } from "../utils/calculation";
+import CostDisplayer from "./ui/CostDisplayer";
+import { print } from "../utils/print";
 
-const ConfirmOrderPage = () => {
-  const navigation = useNavigation();
-  const subTotal = 2000;
-  const TAX_REGION = 0.15;
-  const shipping = 100;
-  const tax = (subTotal + shipping) * TAX_REGION;
-  const total = subTotal + shipping + tax;
+const ConfirmOrderPage = ({ route, navigation }) => {
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
+
+  const { orderItems, tax, shippingPrice, totalCost, subTotal } = cartItems;
+
+  const orderHandler = () => {
+    navigation.navigate("payment");
+  };
   return (
     <View style={{ ...defaultStyle, paddingHorizontal: 0 }}>
       <Header back={true} />
       <Heading
         containerStyle={styles.containerStyle}
-        text1="Confirm"
-        text2="Order"
+        text1="Order"
+        text2="Summary"
       />
       <View style={styles.confirmContainer}>
         <FlatList
-          data={cartItems}
-          keyExtractor={(item) => item.productId}
+          data={orderItems}
+          keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
             <ConfirmOrderItem
               price={item.price}
@@ -36,22 +39,23 @@ const ConfirmOrderPage = () => {
               image={item.image}
               name={item.name}
               quantity={item.quantity}
+              id={item.id}
             />
           )}
         />
       </View>
-      <View style={styles.amountContainer}>
-        <PriceTags heading={"SubTotal"} amount={subTotal} />
-        <PriceTags heading={"Shipping"} amount={shipping} />
-        <PriceTags heading={"Tax"} amount={tax} />
-        <PriceTags heading={"Total"} amount={total} />
-      </View>
+      <CostDisplayer
+        subTotal={subTotal}
+        shippingPrice={shippingPrice}
+        tax={tax}
+        totalCost={totalCost}
+      />
       <GeneralButton
-        title={"Payment"}
+        title={"Payment Method"}
         icon={"credit-card-outline"}
         containerStyle={styles.btnContainerStyle}
         size={40}
-        onPress={() => navigation.navigate("payment")}
+        onPress={orderHandler}
       />
     </View>
   );
@@ -62,10 +66,12 @@ export default ConfirmOrderPage;
 const styles = StyleSheet.create({
   btnContainerStyle: {
     backgroundColor: flame[200],
+    position: "absolute",
+    bottom: 0,
   },
   containerStyle: { paddingTop: 60 },
   confirmContainer: {
-    flex: 1,
+    flex: 2,
     elevation: 3,
     shadowOpacity: 0.26,
     shadowOffset: { width: 3, height: 2 },
@@ -73,10 +79,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     shadowColor: light[900],
     borderWidth: 1,
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 10,
-  },
-  amountContainer: {
-    backgroundColor: light[600],
   },
 });

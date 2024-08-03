@@ -11,14 +11,13 @@ import { defaultStyle } from "../assets/sytles";
 import { Avatar } from "react-native-paper";
 import { flame, light } from "../assets/Colors";
 import Footer from "./ui/Footer";
-import ButtonBox from "./ui/Buttons/ButtonBox";
 import { Loader } from "./ui/Loader";
-import { launchCameraAsync } from "expo-image-picker";
 import ImagePicker from "./ImagePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../utils/hooks/useAuth";
 import SquareButton from "./ui/Buttons/SquareButton";
-import { logout } from "../redux/store/actions/logout";
+import { logout } from "../redux/store/actions/auth/logout";
+import HeaderTitle from "./ui/HeaderTitle";
 
 const ProfilePage = ({ route, navigation }) => {
   const [avatar, setAvatar] = useState("");
@@ -30,18 +29,9 @@ const ProfilePage = ({ route, navigation }) => {
 
   const logoutHandler = () => {
     dispatch(logout());
-    // navigation.navigate("login");
   };
   const onImageHandler = async () => {
-    console.log("9999999999");
     setIsTakePhoto(true);
-
-    // navigation.navigate("camera", { updateProfile: true });
-    // const image = launchCameraAsync({
-    //   allowsEditing: true,
-    //   aspect: [16, 9],
-    //   quality: 0.5,
-    // });
   };
 
   return (
@@ -58,9 +48,7 @@ const ProfilePage = ({ route, navigation }) => {
           <Loader />
         ) : (
           <>
-            <View style={{ marginVertical: 30 }}>
-              <Text style={styles.headerText}>Profile</Text>
-            </View>
+            <HeaderTitle header={"Profile"} />
             <View style={styles.container}>
               {!avatar && (
                 <Avatar.Image
@@ -125,6 +113,7 @@ const ProfilePage = ({ route, navigation }) => {
                 <SquareButton
                   icon={"exit-to-app"}
                   title={"Sign Out"}
+                  isLoading={isLoading}
                   onPress={logoutHandler}
                 />
               </View>
@@ -142,7 +131,7 @@ export default ProfilePage;
 const styles = StyleSheet.create({
   container: {
     elevation: 7,
-    backgroundColor: flame[900],
+    backgroundColor: light[700],
     padding: 30,
     borderRadius: 10,
     alignItems: "center",

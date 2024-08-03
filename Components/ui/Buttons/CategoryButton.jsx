@@ -1,13 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { flame, light, liver } from "../../../assets/Colors";
+import { flame, light } from "../../../assets/Colors";
 
 export const CategoryButton = ({ index, onPress, title, id, category }) => {
   return (
     <TouchableOpacity
       style={[
         styles.container,
-        { backgroundColor: index % 2 === 0 ? flame[500] : flame[200] },
+        { backgroundColor: index % 2 === 0 ? flame[400] : light[700] },
       ]}
       onPress={() => onPress(category)}
     >

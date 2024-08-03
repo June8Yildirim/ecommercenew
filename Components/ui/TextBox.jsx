@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: "800",
   },
   value: {
     fontWeight: "300",
-    fontSize: 13,
+    fontSize: 11,
   },
 });

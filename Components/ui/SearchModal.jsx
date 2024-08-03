@@ -12,7 +12,7 @@ import { light } from "../../assets/Colors";
 import { useNavigation } from "@react-navigation/native";
 import SearchItem from "./SearchItem";
 
-const SearchModal = ({ searchQuery, setSearchQuery, products }) => {
+const SearchModal = ({ setSearchQuery, products }) => {
   const navigatiton = useNavigation();
   const backAction = () => {
     setSearchQuery("");

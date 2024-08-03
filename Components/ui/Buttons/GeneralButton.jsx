@@ -14,7 +14,6 @@ const GeneralButton = ({
   disabled = false,
   isLoading = false,
 }) => {
-  // console.log("btuuin", isLoading);
   //FIX: isLoading not working
   return (
     <TouchableOpacity
@@ -22,12 +21,16 @@ const GeneralButton = ({
       style={[styles.addCartContainer, containerStyle]}
       disabled={disabled}
     >
-      <Avatar.Icon
-        icon={icon}
-        color={light[100]}
-        size={size}
-        style={{ backgroundColor: flame[200] }}
-      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Avatar.Icon
+          icon={icon}
+          color={light[100]}
+          size={size}
+          style={{ backgroundColor: flame[200] }}
+        />
+      )}
       <Text style={[styles.addCartText, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );

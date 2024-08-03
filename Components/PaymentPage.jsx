@@ -6,14 +6,26 @@ import { Heading } from "./ui/Heading";
 import { RadioButton } from "react-native-paper";
 import { light, flame } from "../assets/Colors";
 import GeneralButton from "./ui/Buttons/GeneralButton";
+import { useDispatch, useSelector } from "react-redux";
+import { print } from "../utils/print";
+
 const PaymentPage = ({ route, navigation }) => {
+  const [paymentMethod, setPaymentMethod] = useState("CASH");
   const { navigate } = navigation;
-  const isAuthenticated = false;
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
+
   const paymentHandler = () => {
     if (!isAuthenticated) navigate("login");
+
+    dispatch({
+      type: "cartPaymentType",
+      payload: paymentMethod,
+    });
+    navigate("order");
   };
 
-  const [paymentMethod, setPaymentMethod] = useState("cash");
   return (
     <View style={{ ...defaultStyle }}>
       <Header back={true} />
@@ -27,28 +39,30 @@ const PaymentPage = ({ route, navigation }) => {
           <View style={styles.btnContainer}>
             <Text style={styles.text}>Cash</Text>
             <RadioButton
+              key={"cash"}
               value="cash"
-              color={paymentMethod === "cash" ? "red" : "blue"}
-              status={paymentMethod === "cash" ? "checked" : "unchecked"}
-              onPress={() => setPaymentMethod("cash")}
+              color={paymentMethod === "CASH" ? "red" : "blue"}
+              status={paymentMethod === "CASH" ? "checked" : "unchecked"}
+              onPress={() => setPaymentMethod("CASH")}
             />
           </View>
           <View style={styles.btnContainer}>
             <Text style={styles.text}>Card</Text>
             <RadioButton
+              key={"card"}
               value="card"
-              color={paymentMethod === "card" ? "red" : "blue"}
-              status={paymentMethod === "card" ? "checked" : "unchecked"}
-              onPress={() => setPaymentMethod("card")}
+              color={paymentMethod === "CARD" ? "red" : "blue"}
+              status={paymentMethod === "CARD" ? "checked" : "unchecked"}
+              onPress={() => setPaymentMethod("CARD")}
             />
           </View>
         </RadioButton.Group>
       </View>
       <GeneralButton
         icon={
-          paymentMethod === "cash" ? "check-circle" : "circle-multiple-outline"
+          paymentMethod === "CASH" ? "check-circle" : "circle-multiple-outline"
         }
-        title={paymentMethod === "cash" ? "Place Order" : "Pay"}
+        title={paymentMethod === "CASH" ? "Place Order" : "Pay"}
         onPress={paymentHandler}
       />
     </View>
@@ -62,13 +76,13 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   text: {
-    color: light[100],
+    color: flame[500],
+    padding: 5,
     fontWeight: "semibold",
     fontSize: 18,
   },
   container: {
-    backgroundColor: flame[900],
-    flex: 1,
+    backgroundColor: light[700],
     borderRadius: 10,
     elevation: 10,
     flexDirection: "column",
@@ -77,9 +91,11 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     width: "90%",
+    borderRadius: 8,
     flexDirection: "row",
+    backgroundColor: light[100],
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: 30,
     alignItems: "center",
   },
 });

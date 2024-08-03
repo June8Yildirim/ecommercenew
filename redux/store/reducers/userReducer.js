@@ -4,7 +4,22 @@ export const userReducer = createReducer({}, (builder) => {
     .addCase("loginRequest", (state) => {
       state.isLoading = true;
     })
-    .addCase("loadUser", (state) => {
+    .addCase("loadUserRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("registerUserRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("updateUserRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("changePasswordRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("forgetPasswordRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("resetPasswordRequest", (state) => {
       state.isLoading = true;
     })
     .addCase("logoutRequest", (state) => {
@@ -15,11 +30,34 @@ export const userReducer = createReducer({}, (builder) => {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.message = action.payload;
+      state.user = action.payload;
     })
     .addCase("loadUserSuccess", (state, action) => {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
+    })
+    .addCase("changePasswordSuccess", (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+    })
+    .addCase("forgetPasswordSuccess", (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+    })
+    .addCase("resetPasswordSuccess", (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+    })
+    .addCase("registerUserSuccess", (state, action) => {
+      state.isLoading = false;
+      state.isAuthenticated = false;
+      state.message = action.payload;
+    })
+    .addCase("updateUserSuccess", (state, action) => {
+      state.isLoading = false;
+      state.isAuthenticated = true;
+      state.message = action.payload;
     })
     .addCase("logoutSuccess", (state, action) => {
       state.isLoading = false;
@@ -31,6 +69,28 @@ export const userReducer = createReducer({}, (builder) => {
     .addCase("loginFailure", (state, action) => {
       state.isLoading = false;
       state.isAuthenticated = false;
+      state.error = action.payload;
+    })
+    .addCase("registerUserFailure", (state, action) => {
+      state.isLoading = false;
+      state.isAuthenticated = false;
+      state.error = action.payload;
+    })
+    .addCase("updateUserFailure", (state, action) => {
+      state.isLoading = false;
+      state.isAuthenticated = false;
+      state.error = action.payload;
+    })
+    .addCase("changePasswordFailure", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    })
+    .addCase("forgetPasswordFailure", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    })
+    .addCase("resetPasswordFailure", (state, action) => {
+      state.isLoading = false;
       state.error = action.payload;
     })
     .addCase("loadUserFailure", (state, action) => {

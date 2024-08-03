@@ -5,95 +5,75 @@ import { TextInput } from "react-native-paper";
 import { flame, light } from "../assets/Colors";
 import GeneralButton from "./ui/Buttons/GeneralButton";
 import Footer from "./ui/Footer";
-import Button from "./ui/Buttons/Button";
 import Header from "./ui/Header";
+import HeaderTitle from "./ui/HeaderTitle";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../redux/store/actions/auth/profile";
 
 const UpdateProfilePage = ({ route, navigation, user }) => {
-  const { navigate } = navigation;
-  const [updatedUser, setUpdatedUser] = useState({
-    email: "",
-    name: "",
-    password: "",
-    address: "",
-    country: "",
-    state: "",
-    zipCode: "",
-  });
-  const [isFocused, setIsFocused] = useState(false);
+  const dispatch = useDispatch();
+  const [name, setName] = useState(user["name"]);
+  const [email, setEmail] = useState(user["email"]);
+  const [password, setPassword] = useState(user["password"]);
+  const [address, setAddress] = useState(user["address"]);
+  const [country, setCountry] = useState(user["country"]);
+  const [zipCode, setZipCode] = useState(user["zipCode"]);
+  const [state, setState] = useState(user["state"]);
+  const [isFocused, setIsFocused] = useState();
   const dimesion = Dimensions.get("window");
   const { width: deviceWidth, height: deviceHeight } = dimesion;
   const width = deviceWidth * 0.9;
   const height = deviceHeight * 0.8;
   const updateHandler = () => {
-    console.log("uploading");
+    console.log("1");
+    const updatedUser = { name, email, address, country, zipCode, state };
+    console.log(updatedUser);
+    dispatch(updateProfile(updatedUser));
   };
   return (
     <View style={{ ...defaultStyle }}>
       <Header back={true} />
-      <View style={{ marginVertical: 20, paddingTop: 60 }}>
-        <Text style={styles.headerText}>Update Profile</Text>
-      </View>
+      <HeaderTitle header={"Update Profile"} style={{ marginTop: 70 }} />
       <ScrollView
-        contentContainerStyle={[
-          styles.container,
-          { height: height, width: width },
-        ]}
+        contentContainerStyle={[styles.container, { height: height }]}
       >
         <TextInput
           label={"Name"}
-          value={user["name"]}
+          defaultValue={user["name"]}
           onFocus={() => setIsFocused(true)}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[900] : light[700] },
-          ]}
-          onChangeText={(name) => ({ ...user, name: name })}
+          style={styles.input}
+          onChangeText={setName}
         />
         <TextInput
           label={"Email"}
           value={user["email"]}
           onFocus={() => setIsFocused(true)}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[200] : light[700] },
-          ]}
-          onChangeText={(email) => setUpdatedUser({ ...user, email })}
+          style={[styles.input]}
+          onChangeText={setEmail}
         />
         <TextInput
           label={"Address"}
           value={user["address"]}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[200] : light[700] },
-          ]}
-          onChangeText={(data) => setUpdatedUser({ ...user, address: data })}
+          style={[styles.input]}
+          onChangeText={setAddress}
         />
         <TextInput
           label={"State"}
           value={user["state"]}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[200] : light[700] },
-          ]}
-          onChangeText={(st) => setUpdatedUser({ ...user, state: st })}
+          style={[styles.input]}
+          onChangeText={setState}
         />
         <TextInput
           label={"Zip Code"}
-          value={user["zipCode"]}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[200] : light[700] },
-          ]}
-          onChangeText={(data) => setUpdatedUser({ ...user, zipCode: data })}
+          defaultValue={user["zipCode"]}
+          style={[styles.input]}
+          onChangeText={setZipCode}
         />
         <TextInput
           label={"Country"}
           value={user["country"]}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[200] : light[700] },
-          ]}
-          onChangeText={(data) => setUpdatedUser({ ...user, country: data })}
+          style={[styles.input]}
+          onChangeText={setCountry}
         />
         <GeneralButton
           onPress={updateHandler}
@@ -103,6 +83,7 @@ const UpdateProfilePage = ({ route, navigation, user }) => {
           icon={"creation"}
         />
       </ScrollView>
+      <Footer />
     </View>
   );
 };
@@ -114,18 +95,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     borderRadius: 10,
-    backgroundColor: flame[900],
+    backgroundColor: light[700],
     paddingVertical: 20,
-  },
-  headerText: {
-    backgroundColor: flame[900],
-    height: 50,
-    color: "#fff",
-    textAlign: "center",
-    fontSize: 20,
-    letterSpacing: 5,
-    verticalAlign: "middle",
-    borderRadius: 7,
   },
   input: {
     marginVertical: 10,

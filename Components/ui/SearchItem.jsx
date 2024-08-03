@@ -11,7 +11,7 @@ const SearchItem = ({ price, name, image, handler }) => {
         </Text>
         <Headline style={{ fontWeight: 900 }}>${price}</Headline>
       </View>
-      <Image source={{ uri: image.url }} style={styles.image} />
+      {image && <Image source={{ uri: image.url }} style={styles.image} />}
     </TouchableOpacity>
   );
 };

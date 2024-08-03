@@ -3,8 +3,7 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import SquareButton from "./SquareButton";
 import { useDispatch } from "react-redux";
-import { useAuth } from "../../../utils/hooks/useAuth";
-import { logout } from "../../../redux/store/actions/logout";
+import { logout } from "../../../redux/store/actions/auth/logout";
 
 const ButtonBox = () => {
   const navigation = useNavigation();

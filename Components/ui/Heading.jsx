@@ -16,9 +16,10 @@ export const Heading = ({
 const styles = StyleSheet.create({
   cart: {
     fontSize: 25,
-    fontWeight: "bold",
+    fontFamily: "poppins-extra-bold",
   },
   shopping: {
     fontSize: 25,
+    fontFamily: "poppins",
   },
 });

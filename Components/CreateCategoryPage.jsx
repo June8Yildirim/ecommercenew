@@ -24,9 +24,7 @@ const categoryData = [
 ];
 const CreateCategoryPage = () => {
   const [category, setCategory] = useState("");
-  const onCreateCategoryHandler = () => {
-    console.log(category);
-  };
+  const onCreateCategoryHandler = () => {};
   return (
     <View style={{ ...defaultStyle, backgroundColor: light[600] }}>
       <Header back={true} />

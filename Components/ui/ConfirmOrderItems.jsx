@@ -8,16 +8,17 @@ const ConfirmOrderItem = ({ quantity, idx, id, price, name, image }) => {
       style={[
         styles.itemContainer,
         {
-          backgroundColor: idx % 2 === 0 ? light[200] : flame[200],
+          backgroundColor: idx % 2 === 0 ? light[400] : flame[200],
         },
       ]}
     >
       <View style={styles.imageContainer}>
-        <Image source={{ uri: image.url }} style={styles.image} />
+        <Image source={{ uri: image?.url }} style={styles.image} />
       </View>
       <Text style={{ fontWeight: 900 }}>{quantity} x</Text>
       <View style={styles.textContainer}>
         <Text
+          numberOfLines={2}
           style={[
             styles.text,
             { color: idx % 2 === 0 ? flame[200] : light[200] },
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   text: {
-    fontWeight: "thin",
+    fontWeight: "100",
+    fontFamily: "poppins-medium",
     fontSize: 13,
   },
   image: {

@@ -18,32 +18,6 @@ import UpdateProductImages from "./Images";
 
 const UpdateProductPage = ({ route, navigation, product }) => {
   const { navigate } = navigation;
-  const categories = [
-    {
-      name: "Home Electronics",
-      id: "el1",
-    },
-    {
-      name: "Computer",
-      id: "comp1",
-    },
-    {
-      name: "Games",
-      id: "gam1",
-    },
-    {
-      name: "Movies",
-      id: "mov1",
-    },
-    {
-      name: "Books",
-      id: "boo1",
-    },
-    {
-      name: "Clothing",
-      id: "cl1",
-    },
-  ];
   const [updatedProduct, setUpdatedProduct] = useState({
     name: product.name,
     price: product.price,
@@ -65,9 +39,7 @@ const UpdateProductPage = ({ route, navigation, product }) => {
     setUpdatedProduct({ ...updatedProduct, categoryId: id, category });
     setIsCategoriesVisible(false);
   };
-  const updateHandler = () => {
-    console.log("uploading");
-  };
+  const updateHandler = () => {};
   return (
     <View style={{ ...defaultStyle }}>
       <Header back={true} />

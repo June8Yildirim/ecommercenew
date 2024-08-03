@@ -4,7 +4,7 @@ import { flame, light } from "../../assets/Colors";
 
 const HeaderTitle = ({ style, header }) => {
   return (
-    <View style={{ ...style, marginVertical: 30 }}>
+    <View style={{ marginVertical: 30, ...style }}>
       <Text style={styles.headerText}>{header}</Text>
     </View>
   );
@@ -14,7 +14,7 @@ export default HeaderTitle;
 
 const styles = StyleSheet.create({
   headerText: {
-    backgroundColor: flame[900],
+    backgroundColor: flame[800],
     height: 50,
     color: light[100],
     textAlign: "center",

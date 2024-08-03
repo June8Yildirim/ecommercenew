@@ -1,6 +1,7 @@
 import { TouchableOpacity, Text } from "react-native";
 import React from "react";
 import { Avatar } from "react-native-paper";
+import { Loader } from "../Loader";
 
 const IconButton = ({
   color,
@@ -10,16 +11,21 @@ const IconButton = ({
   onPress,
   backgroundColor,
   style,
+  isLoading = false,
   textColor = "#fff",
 }) => {
   return (
     <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
-      <Avatar.Icon
-        icon={icon}
-        size={size}
-        color={color}
-        style={{ backgroundColor: backgroundColor, alignSelf: "center" }}
-      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Avatar.Icon
+          icon={icon}
+          size={size}
+          color={color}
+          style={{ backgroundColor: backgroundColor, alignSelf: "center" }}
+        />
+      )}
       {title && (
         <Text style={{ color: textColor, textAlign: "center" }}>{title}</Text>
       )}

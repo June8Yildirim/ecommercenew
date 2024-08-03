@@ -1,19 +1,23 @@
 import axios from "axios";
-import { baseURL } from "../../../axios/api";
+import { baseURL } from "../../../../axios/api";
+import { print } from "../../../../utils/print";
 
 export const login = (user) => async (dispatch) => {
   try {
     dispatch({ type: "loginRequest" });
+    dispatch({ type: "loadUserRequest" });
 
     const { data } = await axios.post(`${baseURL}/auth`, user, {
       headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     });
-    // console.log("login", JSON.stringify(data, null, 4));
-    dispatch({ type: "loginSuccess", payload: data });
+    dispatch({ type: "loginSuccess", payload: data.message });
+    dispatch({ type: "loadUserSuccess", payload: data.user });
   } catch (error) {
-    dispatch({ type: "loginFailed", payload: error.response.data.message });
+    dispatch({ type: "loginFailed", payload: error.response?.data.message });
   }
 };
+
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: "loadUserRequest" });
@@ -27,6 +31,9 @@ export const loadUser = () => async (dispatch) => {
     });
     dispatch({ type: "loadUserSuccess", payload: data.user });
   } catch (error) {
-    dispatch({ type: "loadUserFailure", payload: error.response.data.message });
+    dispatch({
+      type: "loadUserFailure",
+      payload: error.response?.data.message,
+    });
   }
 };

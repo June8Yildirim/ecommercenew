@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#f0d8d4"
+      "backgroundColor": "#f8f9fa"
     },
     "ios": {
       "supportsTablet": true
@@ -17,7 +17,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#f0d8d4"
+        "backgroundColor": "#f8f9fa"
       }
     },
     "web": {
@@ -30,6 +30,19 @@
           "cameraPermission": "Allow app to access your camera",
           "microphonePermission": "Allow app to access your microphone",
           "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "montserrat": [
+            "./assets/fonts/Montserrat-Regular.otf",
+            "./assets/fonts/Montserrat-Bold.otf",
+            "./assets/fonts/Montserrat-Light.otf",
+            "./assets/fonts/Montserrat-Medium.otf",
+            "./assets/fonts/Montserrat-SemiBold.otf",
+            "./assets/fonts/Montserrat-ExtraBold.otf"
+          ]
         }
       ]
     ]

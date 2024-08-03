@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import { chestnut, light, liver } from "../../../assets/Colors";
+import { light } from "../../../assets/Colors";
 import { Avatar } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -19,7 +19,7 @@ const BackButton = () => {
     >
       <Avatar.Icon
         icon={"arrow-left"}
-        color={route.name === "productdetails" ? liver[200] : liver[500]}
+        color={route.name === "productdetails" ? light[200] : light[500]}
         size={50}
         style={{ backgroundColor: light[100] }}
       />

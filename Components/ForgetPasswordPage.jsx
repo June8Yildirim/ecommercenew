@@ -6,47 +6,49 @@ import { flame, light } from "../assets/Colors";
 import Header from "./ui/Header";
 import GeneralButton from "./ui/Buttons/GeneralButton";
 import Footer from "./ui/Footer";
+import { useDispatch } from "react-redux";
+import { forgetPassword } from "../redux/store/actions/auth/password";
+import { useAuth } from "../utils/hooks/useAuth";
+import HeaderTitle from "./ui/HeaderTitle";
 
 export default function ForgetPasswordPage({ route, navigation }) {
-  const { navigate } = navigation;
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("admin@admin.com");
   const [isFocused, setIsFocused] = useState(false);
   const dimesion = Dimensions.get("window");
   const { width, height } = dimesion;
+  const isLoading = useAuth(navigation, dispatch, "onetimepassword");
+  const forgetPasswordHandler = () => {
+    dispatch(forgetPassword({ email }));
+    navigation.navigate("onetimepassword");
+  };
   return (
     <View style={{ ...defaultStyle, padding: 20 }}>
-      <View style={{ marginVertical: 30 }}>
-        <Text style={styles.headerText}>Forget Password</Text>
-      </View>
-      <ScrollView
-        contentContainerStyle={[
-          styles.container,
-          { height: height, width: width },
-        ]}
-      >
+      <HeaderTitle header={"Forget Password"} />
+      <ScrollView contentContainerStyle={[styles.container]}>
         <TextInput
           label={"Email"}
           value={email}
-          onFocus={() => setIsFocused(true)}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[200] : light[700] },
-          ]}
+          autoFocus={() => setIsFocused(true)}
+          autoCapitalize="none"
+          style={[styles.input]}
           onChangeText={(email) => setEmail(email)}
         />
         <GeneralButton
           containerStyle={styles.loginStyle}
           title={"Send Request Link"}
           icon={"link"}
-          onPress={() => navigate("onetimepassword")}
+          isLoading={isLoading}
+          onPress={forgetPasswordHandler}
         />
         <View style={styles.btnContainer}>
           <GeneralButton
             containerStyle={styles.btnStyle}
             title={"Create User"}
             icon={"creation"}
-            onPress={() => navigate("signup")}
+            onPress={() => navigation.navigate("signup")}
           />
+          <Text style={{ color: light[100] }}>OR</Text>
           <GeneralButton
             containerStyle={styles.btnStyle}
             title={"Login"}
@@ -65,12 +67,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: flame[900],
+    backgroundColor: light[700],
+    marginVertical: 30,
+    paddingVertical: 30,
   },
   headerText: {
     backgroundColor: flame[900],
     height: 50,
-    color: "#fff",
+    color: light[100],
     textAlign: "center",
     fontSize: 20,
     letterSpacing: 5,
@@ -82,8 +86,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   btnContainer: {
-    width: "100%",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
   },

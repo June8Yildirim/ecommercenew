@@ -1,6 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { flame, light, liver } from "../../../assets/Colors";
 
 const RegularButton = ({ title, onPress, containerStyle, textStyle }) => {
   return (

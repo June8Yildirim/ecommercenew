@@ -5,20 +5,28 @@ import { TextInput } from "react-native-paper";
 import { flame, light } from "../assets/Colors";
 import GeneralButton from "./ui/Buttons/GeneralButton";
 import Footer from "./ui/Footer";
+import HeaderTitle from "./ui/HeaderTitle";
+import { useDispatch } from "react-redux";
+import { resetPassword } from "../redux/store/actions/auth/password";
+import { useAuth } from "../utils/hooks/useAuth";
 
 export default function OneTimePasswordPage({ route, navigation }) {
   const { navigate } = navigation;
-  const [password, setPassword] = useState("");
+  const dispacth = useDispatch();
+  const [password, setPassword] = useState("123ACV");
+  const [oneTimePassword, setOneTimePassword] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const dimesion = Dimensions.get("window");
   const { width, height } = dimesion;
   const availableHeight = height * 0.75;
+  const isLoading = useAuth(navigation, dispacth, "login");
+  const resetPasswordHandler = () => {
+    dispacth(resetPassword({ oneTimePassword, password }));
+  };
 
   return (
     <View style={{ ...defaultStyle, padding: 20 }}>
-      <View style={{ marginVertical: 30 }}>
-        <Text style={styles.headerText}>Reset Password</Text>
-      </View>
+      <HeaderTitle header={"Reset Password"} />
       <ScrollView
         contentContainerStyle={[
           styles.container,
@@ -27,28 +35,21 @@ export default function OneTimePasswordPage({ route, navigation }) {
       >
         <TextInput
           label={"Code"}
-          value={password}
-          onFocus={() => setIsFocused(true)}
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[200] : light[700] },
-          ]}
-          onChangeText={(pass) => setPassword(pass)}
+          style={[styles.input]}
+          onChangeText={(pass) => setOneTimePassword(pass)}
         />
         <TextInput
           label={"New Password"}
           value={password}
           secureTextEntry
-          style={[
-            styles.input,
-            { backgroundColor: isFocused ? light[900] : light[700] },
-          ]}
+          style={[styles.input]}
           onChangeText={(pass) => setPassword(pass)}
         />
         <GeneralButton
           containerStyle={styles.loginStyle}
           title={"Reset Password"}
           icon={"link-box-outline"}
+          onPress={resetPasswordHandler}
         />
         <View style={styles.btnContainer}>
           <GeneralButton
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: flame[900],
+    backgroundColor: light[700],
   },
   headerText: {
     backgroundColor: flame[900],

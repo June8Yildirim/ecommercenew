@@ -24,15 +24,21 @@ import UpdateProductScreen from "./Screens/UpdateProductScreen";
 import CategoriesScreen from "./Screens/AdminScreens/CategoriesScreen";
 import AdminOrdersScreen from "./Screens/AdminScreens/AdminOrdersScreen";
 import CameraScreen from "./Screens/CameraScreen";
-import { useDispatch } from "react-redux";
-import { loadUser } from "./redux/store/actions/login";
+import { useDispatch, useSelector } from "react-redux";
+import { loadUser } from "./redux/store/actions/auth/login";
+import OrderHistoryScreen from "./Screens/UserScreen/OrdersHistoryScreen";
+
+const Stack = createNativeStackNavigator();
 
 export default function Main() {
-  const Stack = createNativeStackNavigator();
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("MAin", isAuthenticated);
     dispatch(loadUser());
   }, [dispatch]);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -128,14 +134,14 @@ export default function Main() {
             options={{ title: "Admin Orders" }}
           />
           <Stack.Screen
-            name="camera"
-            component={CameraScreen}
-            options={{ title: "Camera" }}
+            name="orders"
+            component={OrderHistoryScreen}
+            options={{ title: "Order History" }}
           />
           <Stack.Screen
-            name="orders"
+            name="order"
             component={OrdersScreen}
-            options={{ title: "Orders Summary" }}
+            options={{ title: "Order Summary" }}
           />
           <Stack.Screen
             name="updatepassword"
@@ -146,6 +152,11 @@ export default function Main() {
             name="signout"
             component={SignOutScreen}
             options={{ title: "Sign Out" }}
+          />
+          <Stack.Screen
+            name="camera"
+            component={CameraScreen}
+            options={{ title: "Camera" }}
           />
         </Stack.Group>
       </Stack.Navigator>

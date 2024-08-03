@@ -7,19 +7,22 @@ import GeneralButton from "./ui/Buttons/GeneralButton";
 import Footer from "./ui/Footer";
 import HeaderTitle from "./ui/HeaderTitle";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/store/actions/login";
+import { login } from "../redux/store/actions/auth/login";
 import { Loader } from "./ui/Loader";
 import { useAuth } from "../utils/hooks/useAuth";
 
 export default function LoginPage({ route, navigation }) {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({
+    email: "admin@admin.com",
+    password: "123ACV",
+  });
   const dimesion = Dimensions.get("window");
   const { width, height } = dimesion;
   const availableHeight = height * 0.75;
   const availableWidht = width * 0.65;
 
   const dispatch = useDispatch();
-  const isLoading = useAuth(navigation, dispatch, "profile");
+  const isLoading = useAuth(navigation, dispatch, "home");
 
   const submitHandler = () => {
     dispatch(login(user));
@@ -39,6 +42,7 @@ export default function LoginPage({ route, navigation }) {
             value={user["email"]}
             style={[styles.input]}
             onChangeText={(email) => setUser({ ...user, email })}
+            autoCapitalize="none"
           />
           <TextInput
             label={"Password"}
@@ -46,6 +50,7 @@ export default function LoginPage({ route, navigation }) {
             secureTextEntry
             style={[styles.input]}
             onChangeText={(pass) => setUser({ ...user, password: pass })}
+            autoCapitalize="none"
           />
           <View
             style={{
@@ -57,7 +62,7 @@ export default function LoginPage({ route, navigation }) {
               containerStyle={styles.btnStyle}
               title={"Forget Password"}
               icon={"lock"}
-              textStyle={{ color: light[900], fontSize: 10 }}
+              textStyle={{ fontSize: 10 }}
               size={15}
               onPress={() => navigation.navigate("forgetpassword")}
             />
@@ -65,17 +70,17 @@ export default function LoginPage({ route, navigation }) {
         </View>
         <GeneralButton
           containerStyle={styles.loginStyle}
-          title={"Login"}
+          title={"SING IN"}
           icon={"login"}
           isLoading={isLoading}
           onPress={submitHandler}
         />
 
         <View style={styles.btnContainer}>
-          <Text style={{ color: light[800] }}>OR</Text>
+          <Text style={{ color: light[100] }}>OR</Text>
           <GeneralButton
             containerStyle={styles.btnStyle}
-            title={"SIGNUP"}
+            title={"SIGN UP"}
             icon={"creation"}
             onPress={() => navigation.navigate("signup")}
           />
@@ -88,8 +93,9 @@ export default function LoginPage({ route, navigation }) {
 
 const styles = StyleSheet.create({
   Outercontainer: {
-    backgroundColor: flame[900],
+    backgroundColor: light[700],
     alignItems: "center",
+    borderRadius: 10,
     justifyContent: "center",
   },
   container: {

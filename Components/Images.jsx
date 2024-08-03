@@ -5,7 +5,6 @@ import { flame } from "../assets/Colors";
 import IconButton from "./ui/Buttons/IconButton";
 
 const UpdateProductImages = ({ image }) => {
-  console.log(image);
   return (
     <View style={styles.imageContainer}>
       <Image source={{ uri: image.url }} style={styles.image} />

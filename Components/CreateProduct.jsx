@@ -62,14 +62,10 @@ export default function CreateProductPage({ route, navigation }) {
   const width = deviceWidth * 0.9;
   const height = deviceHeight * 0.8;
   const onPressHandler = (id, category) => {
-    console.log(id, category);
     setProduct({ ...updatedProduct, categoryId: id, category });
     setIsCategoriesVisible(false);
-    console.log(updatedProduct);
   };
-  const createHandler = () => {
-    console.log("uploading");
-  };
+  const createHandler = () => {};
   return (
     <View style={{ ...defaultStyle }}>
       <Header back={true} />
