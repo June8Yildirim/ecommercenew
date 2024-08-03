@@ -25,8 +25,8 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
   console.log("===========================>>");
   let product = undefined;
   for (const item of orderItems) {
-    const { productId } = item;
-    product = await Product.findById(productId);
+    const { id } = item;
+    product = await Product.findById(id);
     if (!product)
       return next(
         new ErrorHandler("The owner of order does not provided"),
