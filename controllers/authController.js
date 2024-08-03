@@ -8,6 +8,8 @@ import { sendEmail } from "../utils/sendEmail.js";
 
 export const login = asyncErrorHandler(async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(">>>>>>>>>>>>>>>>>>>>>>getAllProducts");
+  console.log(req.body);
 
   if (!email || !password)
     return next(
@@ -18,6 +20,7 @@ export const login = asyncErrorHandler(async (req, res, next) => {
     );
 
   const user = await User.findOne({ email }).select("+password");
+  console.log(">>>>>>>>>>>>>>>>>>>>>>getAllProducts");
   if (!user)
     return next(new ErrorHandler("Your entered email not registered.", 403));
 
