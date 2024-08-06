@@ -7,8 +7,8 @@ import { stripe } from "../app.js";
 export const createOrder = asyncErrorHandler(async (req, res, next) => {
   const { _id: userId } = req.user;
 
-  if (!userId) return next(new ErrorHandler("User id does not find"), 403);
   console.log(JSON.stringify(req.body, null, 2));
+  if (!userId) return next(new ErrorHandler("User id does not find"), 403);
   const {
     orderItems,
     subTotal,

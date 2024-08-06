@@ -4,7 +4,6 @@ import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
-  console.log(">>>>>>>>>>>>>>");
   console.log(JSON.stringify(req.cookies));
   const token = req.cookies;
 
@@ -12,6 +11,8 @@ export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
 
   const decodeData = jwt.verify(token, process.env.SECRET);
   req.user = await User.findById(decodeData._id);
+  console.log(">>>>>>>>>>>>>>");
+  console.log(user);
   next();
 });
 export const isAdmin = asyncErrorHandler(async (req, res, next) => {

@@ -40,6 +40,7 @@ export const login = asyncErrorHandler(async (req, res, next) => {
   await user.save();
 
   const optimizedUser = {
+    _id: user._id,
     name: user.name,
     email: user.email,
     role: user.role,
