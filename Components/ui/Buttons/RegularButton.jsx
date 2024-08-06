@@ -17,7 +17,7 @@ export default RegularButton;
 const styles = StyleSheet.create({
   container: {
     margin: 4,
-    borderRadius: 100,
+    borderRadius: 10,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",

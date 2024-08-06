@@ -3,11 +3,11 @@ import React from "react";
 import BackButton from "./Buttons/BackButton";
 import CartButton from "./Buttons/CartButton";
 
-const Header = ({ back, emptyCart = false }) => {
+const Header = ({ back, hasCard = true, emptyCart = false }) => {
   return (
     <>
       {back && <BackButton />}
-      <CartButton emptyCart={emptyCart} />
+      {hasCard && <CartButton emptyCart={emptyCart} />}
     </>
   );
 };

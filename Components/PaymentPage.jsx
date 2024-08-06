@@ -8,6 +8,7 @@ import { light, flame } from "../assets/Colors";
 import GeneralButton from "./ui/Buttons/GeneralButton";
 import { useDispatch, useSelector } from "react-redux";
 import { print } from "../utils/print";
+import Footer from "./ui/Footer";
 
 const PaymentPage = ({ route, navigation }) => {
   const [paymentMethod, setPaymentMethod] = useState("CASH");
@@ -19,16 +20,25 @@ const PaymentPage = ({ route, navigation }) => {
   const paymentHandler = () => {
     if (!isAuthenticated) navigate("login");
 
-    dispatch({
-      type: "cartPaymentType",
-      payload: paymentMethod,
-    });
-    navigate("order");
+    if (paymentMethod === "CASH") {
+      dispatch({
+        type: "cartPaymentType",
+        payload: paymentMethod,
+      });
+      navigate("order");
+    }
+    if (paymentMethod === "CARD") {
+      dispatch({
+        type: "cartPaymentType",
+        payload: paymentMethod,
+      });
+      navigate("checkout");
+    }
   };
 
   return (
     <View style={{ ...defaultStyle }}>
-      <Header back={true} />
+      <Header back={true} hasCard={false} />
       <Heading
         text1="Payment"
         text2="Method"
@@ -65,6 +75,7 @@ const PaymentPage = ({ route, navigation }) => {
         title={paymentMethod === "CASH" ? "Place Order" : "Pay"}
         onPress={paymentHandler}
       />
+      <Footer />
     </View>
   );
 };

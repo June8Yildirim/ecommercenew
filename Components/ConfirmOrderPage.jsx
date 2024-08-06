@@ -14,7 +14,6 @@ import { print } from "../utils/print";
 const ConfirmOrderPage = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
-
   const { orderItems, tax, shippingPrice, totalCost, subTotal } = cartItems;
 
   const orderHandler = () => {
@@ -22,7 +21,7 @@ const ConfirmOrderPage = ({ route, navigation }) => {
   };
   return (
     <View style={{ ...defaultStyle, paddingHorizontal: 0 }}>
-      <Header back={true} />
+      <Header back={true} hasCard={false} />
       <Heading
         containerStyle={styles.containerStyle}
         text1="Order"

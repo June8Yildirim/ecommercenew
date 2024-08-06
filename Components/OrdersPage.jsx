@@ -17,9 +17,12 @@ const OrdersPage = ({ navigation }) => {
   const { orderItems, paymentType, tax, shippingPrice, totalCost, subTotal } =
     cartItems;
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  const btnText = isAuthenticated ? "Process Order" : "Login";
+  const btnText = isAuthenticated ? "Submit Order" : "Login";
   const dispatch = useDispatch();
-  const updateHandler = () => {
+  print(user);
+  const orderHandler = () => {
+    console.log(isAuthenticated);
+
     if (!isAuthenticated) {
       return navigation.navigate("login");
     } else {
@@ -29,6 +32,7 @@ const OrdersPage = ({ navigation }) => {
           address: user?.address,
           shippingPrice,
           subTotal,
+          deliveryCompany: "Canada Post",
           totalCost,
           tax,
           paymentType,
@@ -38,11 +42,12 @@ const OrdersPage = ({ navigation }) => {
   };
   return (
     <View style={[defaultStyle, styles.container]}>
-      <Header back={true} />
+      <Header back={true} hasCard={false} />
       <HeaderTitle header={"Orders"} style={{ marginTop: 70 }} />
       <FlatList
         data={cartItems.orderItems}
-        keyExtractor={(item) => item.ID}
+        keyExtractor={(item) => item.id}
+        style={{ marginBottom: 10 }}
         renderItem={({ item, index }) => (
           <OrderItem
             idx={index}
@@ -55,26 +60,20 @@ const OrdersPage = ({ navigation }) => {
           />
         )}
       />
-      <ScrollView>
-        <View
-          style={{
-            marginBottom: 80,
-          }}
-        >
-          <CostDisplayer
-            subTotal={subTotal}
-            shippingPrice={shippingPrice}
-            tax={tax}
-            totalCost={totalCost}
-          />
-          <RegularButton
-            containerStyle={styles.btnContainer}
-            textStyle={styles.btnText}
-            title={btnText}
-            onPress={updateHandler}
-          />
-        </View>
-      </ScrollView>
+      <View style={{}}>
+        <CostDisplayer
+          subTotal={subTotal}
+          shippingPrice={shippingPrice}
+          tax={tax}
+          totalCost={totalCost}
+        />
+        <RegularButton
+          containerStyle={styles.btnContainer}
+          textStyle={styles.btnText}
+          title={btnText}
+          onPress={orderHandler}
+        />
+      </View>
     </View>
   );
 };

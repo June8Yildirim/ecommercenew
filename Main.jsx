@@ -27,6 +27,7 @@ import CameraScreen from "./Screens/CameraScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./redux/store/actions/auth/login";
 import OrderHistoryScreen from "./Screens/UserScreen/OrdersHistoryScreen";
+import CheckoutScreen from "./Screens/CheckoutScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -142,6 +143,11 @@ export default function Main() {
             name="order"
             component={OrdersScreen}
             options={{ title: "Order Summary" }}
+          />
+          <Stack.Screen
+            name="checkout"
+            component={CheckoutScreen}
+            options={{ title: "Checkout Card" }}
           />
           <Stack.Screen
             name="updatepassword"
