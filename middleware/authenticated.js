@@ -16,7 +16,7 @@ export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   console.log("$$$$$$$$$$$$$$4", JSON.stringify(decodeData));
   req.user = await User.findById(decodeData._id);
   console.log(">>>>>>>>>>>>>>");
-  console.log(user);
+  console.log(req.user);
   next();
 });
 export const isAdmin = asyncErrorHandler(async (req, res, next) => {
