@@ -57,7 +57,7 @@ const orderSchema = new Schema({
   },
   paymentType: {
     type: String,
-    enum: ["ONLINE", "CASH"],
+    enum: ["CARD", "CASH"],
   },
   paidAt: Date,
   deliveryAt: Date,
