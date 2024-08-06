@@ -12,6 +12,7 @@ export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   console.log(">>>>>>>>>>>>>>");
 
   const decodeData = jwt.verify(token, process.env.SECRET);
+  console.log(JSON.stringify(jwt.verify(token, process.env.SECRET)));
   console.log("$$$$$$$$$$$$$$4", JSON.stringify(decodeData));
   req.user = await User.findById(decodeData._id);
   console.log(">>>>>>>>>>>>>>");
