@@ -5,7 +5,7 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   console.log(JSON.stringify(req.cookies));
-  const token = req.cookies;
+  const token = req.cookies.token;
 
   console.log(">>>>>>>>>>>>>>");
   if (!token) return next(new ErrorHandler("User is not authenticated", 401));
