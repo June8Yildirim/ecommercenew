@@ -1,4 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
+
 export const userReducer = createReducer({}, (builder) => {
   builder
     .addCase("loginRequest", (state) => {
@@ -23,6 +24,7 @@ export const userReducer = createReducer({}, (builder) => {
       state.isLoading = true;
     })
     .addCase("logoutRequest", (state) => {
+      console.log("logoutRequest");
       state.isLoading = true;
     });
   builder
@@ -60,6 +62,7 @@ export const userReducer = createReducer({}, (builder) => {
       state.message = action.payload;
     })
     .addCase("logoutSuccess", (state, action) => {
+      console.log("logoutSuccess");
       state.isLoading = false;
       state.isAuthenticated = false;
       state.message = action.payload;

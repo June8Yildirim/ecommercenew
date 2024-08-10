@@ -8,7 +8,6 @@ import Footer from "./ui/Footer";
 import HeaderTitle from "./ui/HeaderTitle";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/store/actions/auth/login";
-import { Loader } from "./ui/Loader";
 import { useAuth } from "../utils/hooks/useAuth";
 
 export default function LoginPage({ route, navigation }) {
@@ -23,6 +22,8 @@ export default function LoginPage({ route, navigation }) {
 
   const dispatch = useDispatch();
   const isLoading = useAuth(navigation, dispatch, "home");
+  // console.log("Loading", loading);
+  // const isLoading = false;
 
   const submitHandler = () => {
     dispatch(login(user));

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { defaultStyle } from "../assets/sytles";
 import { Avatar } from "react-native-paper";
 import { flame, light } from "../assets/Colors";
@@ -18,18 +18,35 @@ import { useAuth } from "../utils/hooks/useAuth";
 import SquareButton from "./ui/Buttons/SquareButton";
 import { logout } from "../redux/store/actions/auth/logout";
 import HeaderTitle from "./ui/HeaderTitle";
+import { print } from "../utils/print";
+import { useIsFocused } from "@react-navigation/native";
 
 const ProfilePage = ({ route, navigation }) => {
+  let isLogout = false;
   const [avatar, setAvatar] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const isLoading = useAuth(navigation, dispatch, "login");
   const [isTakePhoto, setIsTakePhoto] = useState(false);
+  // const [isLoading] = useState(false);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+  // const isLoading= false
+  const { user } = useSelector((state) => state.auth);
+
+  const isLoading = useAuth(navigation, dispatch, "home");
+  // console.log("ProfilePage");
+  // print(user);
+  // console.log("ProfilePage");
 
   const logoutHandler = () => {
-    dispatch(logout());
+    const isLogout = dispatch(logout(dispatch, navigation));
+    console.log("isLogout", isLogout);
   };
+
+  useEffect(() => {
+    if (isLogout) {
+      navigation.navigate("home");
+    }
+  }, [isLogout]);
+
   const onImageHandler = async () => {
     setIsTakePhoto(true);
   };
@@ -44,7 +61,7 @@ const ProfilePage = ({ route, navigation }) => {
         />
       )}
       <View style={{ ...defaultStyle, paddingTop: 30 }}>
-        {loading ? (
+        {isLoading ? (
           <Loader />
         ) : (
           <>

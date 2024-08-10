@@ -18,7 +18,6 @@ export const cartReducer = createReducer(
       const isExist = state.cartItems.orderItems.find((i) => i.id === item.id);
       const TAX_REGION = 0.18;
       if (isExist) {
-        console.log("##################");
         state.cartItems.orderItems = state.cartItems.orderItems.map(
           (i, idx) =>
             (state.cartItems.orderItems[idx] = i.id === isExist.id ? item : i),
@@ -33,7 +32,6 @@ export const cartReducer = createReducer(
         state.cartItems["totalCost"] = total;
         state.cartItems[""];
       } else {
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!");
         state.cartItems.orderItems.push(item);
         const { shipping, subTotal, tax, total } = costCalculation(
           state.cartItems.orderItems,

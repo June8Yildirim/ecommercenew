@@ -36,7 +36,6 @@ export default function Main() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("MAin", isAuthenticated);
     dispatch(loadUser());
   }, [dispatch]);
 

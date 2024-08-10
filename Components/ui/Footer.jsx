@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 const Footer = ({ activeRoute = "home" }) => {
   const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
+  // const isAuthenticated = false;
   const navigation = useNavigation();
   const shopping = activeRoute === "cart" ? "shopping" : "shopping-outline";
   const account = !isAuthenticated
@@ -17,8 +18,8 @@ const Footer = ({ activeRoute = "home" }) => {
   const navigateTo = isAuthenticated ? "profile" : "login";
   const home = activeRoute === "home" ? "home" : "home-outline";
   const dimensions = Dimensions.get("window");
-  const deviceWidth = Dimensions.get("window").width;
   const deviceHeight = Dimensions.get("window").height;
+  const deviceWidth = Dimensions.get("window").width;
   return (
     <View style={[styles.container, { width: deviceWidth }]}>
       <View style={styles.textContainer}>

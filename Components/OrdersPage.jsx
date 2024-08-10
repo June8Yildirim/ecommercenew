@@ -21,8 +21,6 @@ const OrdersPage = ({ navigation }) => {
   const dispatch = useDispatch();
   print(user);
   const orderHandler = () => {
-    console.log(isAuthenticated);
-
     if (!isAuthenticated) {
       return navigation.navigate("login");
     } else {

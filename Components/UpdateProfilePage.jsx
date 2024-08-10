@@ -25,9 +25,7 @@ const UpdateProfilePage = ({ route, navigation, user }) => {
   const width = deviceWidth * 0.9;
   const height = deviceHeight * 0.8;
   const updateHandler = () => {
-    console.log("1");
     const updatedUser = { name, email, address, country, zipCode, state };
-    console.log(updatedUser);
     dispatch(updateProfile(updatedUser));
   };
   return (
