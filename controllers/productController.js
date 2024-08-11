@@ -43,7 +43,7 @@ export const createProduct = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAdminProducts = asyncErrorHandler(async (req, res, next) => {
-  const products = await Product.find({}).populate("Category");
+  const products = await Product.find({}).populate("categoryId");
   const outOfStockProducts = products.filter((product) => product.stock === 0);
   res.status(201).json({
     products,

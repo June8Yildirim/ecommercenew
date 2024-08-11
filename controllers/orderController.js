@@ -89,10 +89,12 @@ export const getAdminOrders = asyncErrorHandler(async (req, res, next) => {
     .populate("orderItems.productId");
   res.status(200).json({ orders });
 });
+
 export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
   const { _id: userId } = req.user;
   //TODO: get order's product and owner details
-  const orders = await Order.find({ owner: userId }); //.populate("Product"); //.populate("User");
+  const orders = await Order.find({ owner: userId }) //.populate("Product"); //.populate("User");
+    .populate("orderItems.productId");
   res.status(200).json({ orders });
 });
 
