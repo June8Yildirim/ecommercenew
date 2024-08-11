@@ -143,9 +143,13 @@ export const processOrder = asyncErrorHandler(async (req, res, next) => {
 export const processPayment = asyncErrorHandler(async (req, res, next) => {
   const { totalAmount } = req.body;
   console.log("totalAmount", totalAmount);
-  const { client_secret } = await stripe.paymentIntents.create({
-    amount: Number(totalAmount * 100),
-    currency: "usd",
-  });
-  res.status(200).json({ client_secret, success: true });
+  try {
+    const { client_secret } = await stripe.paymentIntents.create({
+      amount: Number(totalAmount * 100),
+      currency: "usd",
+    });
+    res.status(200).json({ client_secret, success: true });
+  } catch (error) {
+    res.status(401).json({ error: error.raw.message, success: true });
+  }
 });
