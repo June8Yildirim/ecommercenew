@@ -1,3 +1,4 @@
+// import Stripe from "stripe";
 import { asyncErrorHandler } from "../middleware/Error.js";
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
@@ -141,15 +142,19 @@ export const processOrder = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const processPayment = asyncErrorHandler(async (req, res, next) => {
+  console.log(req.body);
   const { totalAmount } = req.body;
   console.log("totalAmount", totalAmount);
   try {
     const { client_secret } = await stripe.paymentIntents.create({
       amount: Number(totalAmount * 100),
       currency: "usd",
+      automatic_payment_methods: {
+        enabled: true,
+      },
     });
     res.status(200).json({ client_secret, success: true });
   } catch (error) {
-    res.status(401).json({ error: error.raw.message, success: true });
+    res.status(401).json({ error: error.raw.message, success: false });
   }
 });
