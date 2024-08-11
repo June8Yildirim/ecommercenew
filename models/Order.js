@@ -37,6 +37,12 @@ const orderSchema = new Schema({
     type: String,
     required: [true, "Please enter product delivery address"],
   },
+  deliveryCompany: {
+    required: true,
+    type: String,
+    enum: ["FedEx", "DHL", "UPS", "Canada Post"],
+    default: "Canada Post",
+  },
   orderStatus: {
     type: String,
     enum: [

@@ -7,7 +7,6 @@ import { stripe } from "../app.js";
 export const createOrder = asyncErrorHandler(async (req, res, next) => {
   const { _id: userId } = req.user;
 
-  console.log(JSON.stringify(req.body, null, 2));
   if (!userId) return next(new ErrorHandler("User id does not find"), 403);
   const {
     orderItems,
@@ -81,7 +80,9 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const getAdminOrders = asyncErrorHandler(async (req, res, next) => {
+  console.log("_____________");
   const orders = await Order.find({}).populate("Product").populate("User");
+  console.log(JSON.stringify(orders, null, 2));
   res.status(200).json({ orders });
 });
 export const getAllOrders = asyncErrorHandler(async (req, res, next) => {
