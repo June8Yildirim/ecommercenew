@@ -81,7 +81,8 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
 
 export const getAdminOrders = asyncErrorHandler(async (req, res, next) => {
   console.log("_____________");
-  const orders = await Order.find({}).populate("owner").populate("productId"); //.populate("Product").populate("User");
+  const orders = await Order.find({}); //.populate("owner").populate("productId"); //.populate("Product").populate("User");
+  const orderss = await Order.find({}).populate("owner").populate("productId"); //.populate("Product").populate("User");
   console.log(JSON.stringify(orders, null, 2));
   res.status(200).json({ orders });
 });
