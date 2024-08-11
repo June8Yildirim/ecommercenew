@@ -125,6 +125,7 @@ export const updateOrder = asyncErrorHandler(async (req, res, next) => {
 
   res.status(201).json({ updatedOrder });
 });
+
 export const deleteOrder = asyncErrorHandler(async (req, res, next) => {
   const { id } = req.params;
   if (!id) return next(new ErrorHandler("Order id not provided"), 403);
@@ -133,12 +134,15 @@ export const deleteOrder = asyncErrorHandler(async (req, res, next) => {
   await Order.findByIdAndDelete(id);
   res.status(201).json({ message: "Order is removed successfully" });
 });
+
 export const processOrder = asyncErrorHandler(async (req, res, next) => {
   const orders = await Order.find({}).populate("Product").populate("User");
   res.status(200).json({ orders });
 });
+
 export const processPayment = asyncErrorHandler(async (req, res, next) => {
   const { totalAmount } = req.body;
+  console.log("totalAmount", totalAmount);
   const { client_secret } = await stripe.paymentIntents.create({
     amount: Number(totalAmount * 100),
     currency: "usd",

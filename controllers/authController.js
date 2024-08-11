@@ -170,17 +170,13 @@ export const updatePassword = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const updateProfile = asyncErrorHandler(async (req, res, next) => {
-  console.log(">>>>>>>>>>>");
   const id = req.user._id;
   const user = await User.findById(id);
-  console.log(user);
-  console.log(req.body);
   if (!user) return next(new ErrorHandler("User not found", 403));
   const updated = await User.findByIdAndUpdate(id, {
     ...req.body,
     updatedAt: Date.now(),
   });
-  console.log(updated);
   res.status(201).json({ updated });
 });
 

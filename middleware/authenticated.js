@@ -9,13 +9,11 @@ export const isAuthenticated = asyncErrorHandler(async (req, res, next) => {
   if (!token) return next(new ErrorHandler("User is not authenticated", 401));
 
   const decodeData = jwt.verify(token, process.env.SECRET);
-  console.log(JSON.stringify(jwt.verify(token, process.env.SECRET)));
   req.user = await User.findById(decodeData._id);
   next();
 });
 export const isAdmin = asyncErrorHandler(async (req, res, next) => {
   const { role } = req.user;
-  console.log("User Role", role);
   if (role !== "admin")
     return next(new ErrorHandler("You are not authorized", 401));
 
