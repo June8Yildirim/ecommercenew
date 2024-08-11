@@ -18,6 +18,7 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
     totalCost,
     address,
   } = req.body;
+  console.log(req.body);
   if (
     !orderItems ||
     !subTotal ||
@@ -37,6 +38,7 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
   if (!userId)
     return next(new ErrorHandler("The owner of order does not provided"), 403);
 
+  console.log("User id>>>>>>>>>>>>>>>>");
   const orders = [];
   let product = undefined;
   for (const item of orderItems) {
@@ -143,6 +145,7 @@ export const processOrder = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const processPayment = asyncErrorHandler(async (req, res, next) => {
+  const { totalAmount } = req.body;
   console.log("totalAmount", totalAmount);
   try {
     const { client_secret } = await stripe.paymentIntents.create({
