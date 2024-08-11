@@ -58,6 +58,7 @@ export const createOrder = asyncErrorHandler(async (req, res, next) => {
     //Reduce from stock
     orders.push({ productId: pr._id, quantity: pr.quantity, price: pr.price });
   }
+  console.log("Order Create>>>>>>>>>>>>>>>>");
   try {
     const order = await Order.create({
       owner: userId,
@@ -142,8 +143,6 @@ export const processOrder = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const processPayment = asyncErrorHandler(async (req, res, next) => {
-  console.log(req.body);
-  const { totalAmount } = req.body;
   console.log("totalAmount", totalAmount);
   try {
     const { client_secret } = await stripe.paymentIntents.create({
