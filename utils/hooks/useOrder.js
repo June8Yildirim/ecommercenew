@@ -1,25 +1,35 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Toast from "react-native-toast-message";
+import { getAllAdminProducts } from "../../redux/store/actions/product/get";
+import { getUserOrders } from "../../redux/store/actions/orders/get";
 
-export const useOrder = (navigation, dispatch, path) => {
-  const { error, isLoading, message } = useSelector(
-    (state) => state.orderItems,
+export const useOrder = (dispatch, isFocused) => {
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const data = dispatch(getUserOrders());
+    setIsLoading(false);
+
+    setOrders(data);
+  }, [isFocused, dispatch]);
+
+  return { isLoading, orders };
+};
+
+export const useAdminOrders = (isFocused, dispatch) => {
+  const { error, products, isLoading, inStock, outOfStock } = useSelector(
+    (state) => state.products,
   );
   useEffect(() => {
     if (error) {
       Toast.show({ type: "error", text1: "Failed fetch order", text2: error });
       dispatch({ type: "clearError" });
     }
-    if (message) {
-      Toast.show({ type: "success", text1: message });
-      dispatch({ type: "clearMessage" });
-      if (path) {
-        console.log("============");
-        navigation.reset({ index: 0, routes: [{ name: path }] });
-      }
-    }
-  }, [error, message, dispatch]);
+    dispatch(getAllAdminProducts());
+  }, [error, isFocused, , dispatch]);
 
-  return isLoading;
+  return { products, inStock, outOfStock, isLoading };
 };

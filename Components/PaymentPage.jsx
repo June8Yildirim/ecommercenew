@@ -15,9 +15,7 @@ const PaymentPage = ({ route, navigation }) => {
   const { navigate } = navigation;
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const { cartItems } = useSelector((state) => state.cart);
-
-  const paymentHandler = () => {
+  const paymentHandler = async () => {
     if (!isAuthenticated) navigate("login");
 
     if (paymentMethod === "CASH") {
@@ -27,6 +25,7 @@ const PaymentPage = ({ route, navigation }) => {
       });
       navigate("order");
     }
+
     if (paymentMethod === "CARD") {
       dispatch({
         type: "cartPaymentType",

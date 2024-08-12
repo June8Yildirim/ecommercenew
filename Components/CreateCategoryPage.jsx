@@ -6,13 +6,21 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { defaultStyle } from "../assets/sytles";
 import { flame, light } from "../assets/Colors";
 import Header from "./ui/Header";
 import HeaderTitle from "./ui/HeaderTitle";
 import CategoryCard from "./CategoryCard";
 import RegularButton from "./ui/Buttons/RegularButton";
+import {
+  useSetCategories,
+  useUpdateCategories,
+} from "../utils/hooks/useProduct";
+import { useIsFocused } from "@react-navigation/native";
+import { print } from "../utils/print";
+import { createCategory } from "../redux/store/actions/product/post";
+import Toast from "react-native-toast-message";
 
 const categoryData = [
   {
@@ -23,31 +31,63 @@ const categoryData = [
   },
 ];
 const CreateCategoryPage = () => {
-  const [category, setCategory] = useState("");
-  const onCreateCategoryHandler = () => {};
+  const [categories, setCategories] = useState([]);
+  const isFocused = useIsFocused();
+  const [isCategory, setIsCategory] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  useSetCategories(setCategories, isFocused, setIsLoading);
+  const [newCategory, setNewCategory] = useState("");
+  const onCreateCategoryHandler = () => {
+    setIsCategory(true);
+  };
+  useEffect(() => {
+    const categoryCreation = async () => {
+      if (isCategory) {
+        const { category, message } = await createCategory(newCategory);
+        setIsCategory(false);
+        setCategories([...categories, category]);
+        setNewCategory("");
+        Toast.show({ type: "success", text1: message });
+      }
+    };
+    categoryCreation();
+  }, [isCategory, isFocused]);
+
+  const deleteHandler = (id) => {
+    console.log(id);
+  };
+  print(categories);
+  const emptyOrders = () => {
+    return <Text>No Orders Found</Text>;
+  };
   return (
     <View style={{ ...defaultStyle, backgroundColor: light[600] }}>
-      <Header back={true} />
+      <Header back={true} hasCard={false} />
       <HeaderTitle
-        style={{ marginBottom: 20, paddingTop: 70 }}
+        style={{ marginBottom: 10, marginTop: 70 }}
         header={"Category"}
       />
       <ScrollView style={{ marginBottom: 20 }}>
         <View
           style={{ backgroundColor: light[100], padding: 20, minHeight: 400 }}
         >
-          {categoryData.map(({ title }) => (
-            <CategoryCard title={title} />
+          {categories.map(({ category, _id }) => (
+            <CategoryCard
+              title={category}
+              key={_id}
+              id={_id}
+              deleteHandler={deleteHandler}
+            />
           ))}
         </View>
       </ScrollView>
       <View style={styles.categoryContainer}>
         <TextInput
           placeholder="Category"
-          value={category}
+          value={newCategory}
           style={styles.categoryText}
           placeholderTextColor={light[100]}
-          onChangeText={setCategory}
+          onChangeText={setNewCategory}
         />
         <RegularButton
           textStyle={styles.btnText}
@@ -67,7 +107,7 @@ const styles = StyleSheet.create({
     elevation: 10,
     padding: 20,
     borderRadius: 10,
-    backgroundColor: flame[900],
+    backgroundColor: light[700],
   },
   categoryText: {
     backgroundColor: light[100],

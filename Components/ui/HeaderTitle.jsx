@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { flame, light } from "../../assets/Colors";
 
-const HeaderTitle = ({ style, header }) => {
+const HeaderTitle = ({ textstyle, style, header }) => {
   return (
     <View style={{ marginVertical: 30, ...style }}>
-      <Text style={styles.headerText}>{header}</Text>
+      <Text style={[styles.headerText, textstyle]}>{header}</Text>
     </View>
   );
 };

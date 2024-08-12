@@ -35,9 +35,9 @@ export default function Main() {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, [dispatch]);
 
   return (
     <NavigationContainer>
@@ -142,6 +142,14 @@ export default function Main() {
             name="order"
             component={OrdersScreen}
             options={{ title: "Order Summary" }}
+          />
+          <Stack.Screen
+            name="orderDetails"
+            component={OrdersScreen}
+            options={({ route }) => ({
+              id: route.params.id,
+              title: "Order Details",
+            })}
           />
           <Stack.Screen
             name="checkout"

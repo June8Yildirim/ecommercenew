@@ -1,7 +1,18 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import TextBox from "./TextBox";
 import { flame, light } from "../../assets/Colors";
+import moment from "moment";
+import { print } from "../../utils/print";
+import { useRoute } from "@react-navigation/native";
+import PreviousOrders from "./PreviousOrders";
 
 const OrderItem = ({
   orders,
@@ -11,36 +22,50 @@ const OrderItem = ({
   paymentStatus,
   orderStatus,
   id,
+  delivery,
   price,
+  owner,
+  items,
 }) => {
-  //TODO: add product details
+  //TODO: make it functional to display previous orders details
+  const formattedDate = moment(orderAt).format("YYYY-MMM-DD kk:mm");
+  const [isOrderDetailed, setIsOrderDetailed] = useState(false);
+  const detailHandler = () => {
+    setIsOrderDetailed(true);
+    // return <PreviousOrders orderItems={items} />;
+  };
   return (
     <View style={{ marginVertical: 10 }}>
-      <Text
-        style={[
-          styles.id,
-          {
-            backgroundColor: idx % 2 !== 0 ? flame[700] : flame[200],
-          },
-        ]}
-      >
-        ID:{id}
-      </Text>
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: idx % 2 === 0 ? flame[900] : light[400],
-            borderColor: idx % 2 !== 0 ? flame[900] : flame[200],
-          },
-        ]}
-      >
-        <TextBox idx={idx} title={"Address"} value={address} />
-        <TextBox idx={idx} title={"Ordered On"} value={orderAt} />
-        <TextBox idx={idx} title={"Price"} value={price} />
-        <TextBox idx={idx} title={"Payment Status"} value={paymentStatus} />
-        <TextBox idx={idx} title={"Order Status"} value={orderStatus} />
-      </View>
+      <TouchableOpacity onPress={detailHandler}>
+        <Text
+          style={[
+            styles.id,
+            {
+              backgroundColor: idx % 2 !== 0 ? light[900] : flame[300],
+              color: light[100],
+            },
+          ]}
+        >
+          ID:{id}
+        </Text>
+        <View
+          style={[
+            styles.container,
+            {
+              backgroundColor: idx % 2 === 0 ? light[900] : light[200],
+              borderColor: idx % 2 !== 0 ? light[200] : light[900],
+            },
+          ]}
+        >
+          <TextBox idx={idx} title={"Address"} value={address} />
+          <TextBox idx={idx} title={"Ordered On"} value={formattedDate} />
+          <TextBox idx={idx} title={"Price"} value={price} />
+          <TextBox idx={idx} title={"Payment Status"} value={paymentStatus} />
+          <TextBox idx={idx} title={"Order Status"} value={orderStatus} />
+          <TextBox idx={idx} title={"Deliveried by"} value={delivery} />
+          {owner && <TextBox idx={idx} title={"Ordered by"} value={owner} />}
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

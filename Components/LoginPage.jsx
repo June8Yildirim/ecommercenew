@@ -22,8 +22,6 @@ export default function LoginPage({ route, navigation }) {
 
   const dispatch = useDispatch();
   const isLoading = useAuth(navigation, dispatch, "home");
-  // console.log("Loading", loading);
-  // const isLoading = false;
 
   const submitHandler = () => {
     dispatch(login(user));

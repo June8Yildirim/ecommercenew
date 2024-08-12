@@ -17,7 +17,6 @@ export const useAuth = (navigation, dispatch, path) => {
       if (path) {
         navigation.reset({ index: 0, routes: [{ name: path }] });
       }
-      dispatch(loadUser());
     }
   }, [error, message, dispatch]);
 

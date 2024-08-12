@@ -19,7 +19,6 @@ const OrdersPage = ({ navigation }) => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const btnText = isAuthenticated ? "Submit Order" : "Login";
   const dispatch = useDispatch();
-  print(user);
   const orderHandler = () => {
     if (!isAuthenticated) {
       return navigation.navigate("login");

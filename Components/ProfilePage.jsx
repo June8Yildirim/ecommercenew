@@ -25,10 +25,8 @@ const ProfilePage = ({ route, navigation }) => {
   let isLogout = false;
   const [avatar, setAvatar] = useState("");
   const [isTakePhoto, setIsTakePhoto] = useState(false);
-  // const [isLoading] = useState(false);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  // const isLoading= false
   const { user } = useSelector((state) => state.auth);
 
   const isLoading = useAuth(navigation, dispatch, "home");
@@ -37,8 +35,7 @@ const ProfilePage = ({ route, navigation }) => {
   // console.log("ProfilePage");
 
   const logoutHandler = () => {
-    const isLogout = dispatch(logout(dispatch, navigation));
-    console.log("isLogout", isLogout);
+    const isLogout = dispatch(logout());
   };
 
   useEffect(() => {
@@ -47,6 +44,7 @@ const ProfilePage = ({ route, navigation }) => {
     }
   }, [isLogout]);
 
+  //FIXME: avatar needs to be fixed
   const onImageHandler = async () => {
     setIsTakePhoto(true);
   };

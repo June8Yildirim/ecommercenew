@@ -4,6 +4,7 @@ import { light, flame } from "../assets/Colors";
 import IconButton from "./ui/Buttons/IconButton";
 
 const CategoryCard = ({ title, id, deleteHandler }) => {
+  console.log(title);
   const reverse = false;
   return (
     <View style={styles.container}>

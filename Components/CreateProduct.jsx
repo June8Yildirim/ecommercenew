@@ -16,6 +16,8 @@ import Header from "./ui/Header";
 import { CategoryButton } from "./ui/Buttons/CategoryButton";
 import IconButton from "./ui/Buttons/IconButton";
 import UpdateProductImages from "./Images";
+import { print } from "../utils/print";
+import HeaderTitle from "./ui/HeaderTitle";
 
 export default function CreateProductPage({ route, navigation }) {
   const { navigate } = navigation;
@@ -59,20 +61,19 @@ export default function CreateProductPage({ route, navigation }) {
   const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
   const dimesion = Dimensions.get("window");
   const { width: deviceWidth, height: deviceHeight } = dimesion;
-  const width = deviceWidth * 0.9;
-  const height = deviceHeight * 0.8;
+
   const onPressHandler = (id, category) => {
-    setProduct({ ...updatedProduct, categoryId: id, category });
-    setIsCategoriesVisible(false);
+    setProduct({ ...product, categoryId: id, category });
+    setIsCategoriesVisible(!isCategoriesVisible);
   };
+
+  print(product);
   const createHandler = () => {};
   return (
     <View style={{ ...defaultStyle }}>
-      <Header back={true} />
-      <View style={{ marginVertical: 20, paddingTop: 60 }}>
-        <Text style={styles.headerText}>Create Product</Text>
-      </View>
-      <ScrollView contentContainerStyle={[styles.container, height]}>
+      <Header hasCard={false} back={true} />
+      <HeaderTitle header={"Create Product"} style={{ marginTop: 60 }} />
+      <ScrollView contentContainerStyle={[styles.container]}>
         {product.images.length > 0 && (
           <FlatList
             data={product.images}
@@ -100,12 +101,6 @@ export default function CreateProductPage({ route, navigation }) {
           onChangeText={(name) => setProduct({ ...product, name: name })}
         />
         <TextInput
-          label={"Description"}
-          value={product["description"]}
-          style={[styles.input]}
-          onChangeText={(desc) => setProduct({ ...product, description: desc })}
-        />
-        <TextInput
           label={"Quantity"}
           value={product["quantity"].toString()}
           style={[styles.input]}
@@ -123,42 +118,47 @@ export default function CreateProductPage({ route, navigation }) {
           style={[styles.input]}
           onChangeText={(price) => setProduct({ ...product, price })}
         />
+        <TextInput
+          label={"Description"}
+          value={product["description"]}
+          numberOfLines={3}
+          style={[styles.input]}
+          onChangeText={(desc) => setProduct({ ...product, description: desc })}
+        />
         <TouchableOpacity
           onPress={() => setIsCategoriesVisible(!isCategoriesVisible)}
           style={{
-            backgroundColor: light[600],
+            backgroundColor: flame[600],
             paddingHorizontal: 20,
             paddingVertical: 10,
           }}
         >
-          <Text variant="titleMedium" style={{ color: flame[900] }}>
+          <Text variant="titleMedium" style={{ color: light[100] }}>
             Select Category
             {product["category"]}
           </Text>
         </TouchableOpacity>
         {isCategoriesVisible && (
-          <View>
-            <FlatList
-              data={categories}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item, index }) => (
-                <CategoryButton
-                  title={item.name}
-                  category={item}
-                  index={index}
-                  id={item.id}
-                  onPress={onPressHandler}
-                />
-              )}
-              horizontal
-            />
-          </View>
+          <FlatList
+            data={categories}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item, index }) => (
+              <CategoryButton
+                title={item.name}
+                category={item}
+                index={index}
+                id={item.id}
+                onPress={onPressHandler}
+              />
+            )}
+            horizontal
+          />
         )}
         <GeneralButton
           onPress={createHandler}
           textStyle={""}
           containerStyle={styles.loginStyle}
-          title={"Update Product"}
+          title={"Create Product"}
           icon={"creation"}
         />
       </ScrollView>
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     borderRadius: 10,
-    backgroundColor: flame[900],
+    backgroundColor: light[800],
     paddingVertical: 20,
   },
   headerText: {

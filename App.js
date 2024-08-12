@@ -5,8 +5,12 @@ import { store } from "./redux/store";
 import Toast from "react-native-toast-message";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
+import { StripeProvider } from "@stripe/stripe-react-native";
+import { light } from "./assets/Colors";
 SplashScreen.preventAutoHideAsync();
 
+STRIPE_CLIENT_SECRET =
+  "pk_test_51PQifZRuJqlYI89drEx24FTEzWq5MjhF7sxfUPCW5TFkxVD6vxqG0C9hfQKeLFqEiYkyEjuhVZvdNn7nhgfqqSRZ00es5CKzyh";
 export default function App() {
   const [loaded, error] = useFonts({
     "poppins-thin": require("./assets/fonts/Poppins-Thin.ttf"),
@@ -32,9 +36,18 @@ export default function App() {
     return null;
   }
   return (
-    <Provider store={store}>
-      <Main />
-      <Toast />
-    </Provider>
+    <StripeProvider
+      publishableKey={STRIPE_CLIENT_SECRET}
+      merchantIdentifier="E-Shoppy Ecommerce"
+      threeDSecureParams={{
+        backgroundColor: light[200],
+        timeout: 5,
+      }}
+    >
+      <Provider store={store}>
+        <Main />
+        <Toast />
+      </Provider>
+    </StripeProvider>
   );
 }

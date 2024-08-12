@@ -1,5 +1,5 @@
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { defaultStyle } from "../assets/sytles";
 import { Loader } from "./ui/Loader";
 import { light, flame } from "../assets/Colors";
@@ -9,6 +9,10 @@ import ProductListHeading from "./ProductHeading";
 import AdminProductCard from "./ui/AdminProductCard";
 import Header from "./ui/Header";
 import ChartsPage from "./Charts";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllAdminProducts } from "../redux/store/actions/product/get";
+import { useIsFocused } from "@react-navigation/native";
+import { print } from "../utils/print";
 const data = [
   {
     name: "In Stock",
@@ -24,7 +28,13 @@ const data = [
   },
 ];
 const AdminPage = ({ route, navigation }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { products, isLoading } = useSelector((state) => state.product);
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllAdminProducts());
+  }, [isFocused, dispatch]);
   return (
     <View style={{ ...defaultStyle, padding: 20 }}>
       <Header back={true} />
@@ -33,7 +43,7 @@ const AdminPage = ({ route, navigation }) => {
         <Text style={styles.headerText}>Admin Panel</Text>
       </View>
       {isLoading ? (
-        <Loader />
+        <Loader color={"red"} size={30} />
       ) : (
         <View style={styles.container}>
           <View style={styles.buttonContainer}>
@@ -58,7 +68,7 @@ const AdminPage = ({ route, navigation }) => {
           <FlatList
             data={products}
             contentContainerStyle={{ marginVertical: 5 }}
-            keyExtractor={(item) => item.productId}
+            keyExtractor={(item) => item._id}
             renderItem={(i) => <AdminProductCard index={i} item={i.item} />}
           />
         </View>

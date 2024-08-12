@@ -17,33 +17,46 @@ export const getUserOrderDetails = (id) => async (dispatch) => {
   }
 };
 
-export const getUserOrders = (id) => async (dispatch) => {
+export const getUserOrders = (admin) => async (dispatch) => {
   try {
-    dispatch({ type: "getUserOrdersRequest" });
-    const { data } = await axios.get(`${baseURL}/order`, {
+    admin
+      ? dispatch({ type: "getAdminOrdersRequest" })
+      : dispatch({ type: "getUserOrdersRequest" });
+
+    const url = !admin ? `${baseURL}/order` : `${baseURL}/order/admin`;
+    const { data } = await axios.get(url, {
       headers: { "Content-Type": "application/json" },
-      withCredentials: true,
     });
-    dispatch({ type: "getUserOrdersSuccess", payload: data });
+    admin
+      ? dispatch({ type: "getAdminOrdersSuccess", payload: data })
+      : dispatch({ type: "getUserOrdersSuccess", payload: data });
   } catch (error) {
-    dispatch({
-      type: "getUserOrdersFailure",
-      payload: error.response.data.message,
-    });
+    admin
+      ? dispatch({
+          type: "getAdminOrdersFailure",
+          payload: error.response.data.message,
+        })
+      : dispatch({
+          type: "getUserOrdersFailure",
+          payload: error.response.data.message,
+        });
   }
 };
 
 export const getAllAdminOrders = () => async (dispatch) => {
   try {
-    dispatch({ type: "getAdminProductsRequest" });
+    dispatch({ type: "getAdminOrdersRequest" });
 
-    const { data } = await axios.get(`${baseURL}/product/admin`, {
+    console.log("..........");
+    const { data } = await axios.get(`${baseURL}/order/admin`, {
       headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     });
-    dispatch({ type: "getAdminProductsSuccess", payload: data });
+    console.log("-------------");
+    dispatch({ type: "getAdminOrdersSuccess", payload: data });
   } catch (error) {
     dispatch({
-      type: "getAdminProductsFailure",
+      type: "getAdminOrdersFailure",
       payload: error.response.data.message,
     });
   }

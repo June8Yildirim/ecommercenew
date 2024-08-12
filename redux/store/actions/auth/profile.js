@@ -19,7 +19,6 @@ export const register = (user) => async (dispatch) => {
 export const updateProfile = (user) => async (dispatch) => {
   try {
     dispatch({ type: "updateUserRequest" });
-    print(user);
     const { data } = await axios.patch(`${baseURL}/auth/update_profile`, user, {
       withCredentials: true,
     });

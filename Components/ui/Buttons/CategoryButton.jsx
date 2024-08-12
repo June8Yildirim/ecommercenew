@@ -7,7 +7,7 @@ export const CategoryButton = ({ index, onPress, title, id, category }) => {
     <TouchableOpacity
       style={[
         styles.container,
-        { backgroundColor: index % 2 === 0 ? flame[400] : light[700] },
+        { backgroundColor: index % 2 === 0 ? flame[400] : light[500] },
       ]}
       onPress={() => onPress(category)}
     >

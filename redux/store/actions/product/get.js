@@ -1,5 +1,6 @@
 import axios from "axios";
 import { baseURL } from "../../../../axios/api";
+import { print } from "../../../../utils/print";
 
 export const getProduct = (id) => async (dispatch) => {
   try {
@@ -22,6 +23,7 @@ export const getAllAdminProducts = () => async (dispatch) => {
 
     const { data } = await axios.get(`${baseURL}/product/admin`, {
       headers: { "Content-Type": "application/json" },
+      withCredentials: true,
     });
     dispatch({ type: "getAdminProductsSuccess", payload: data });
   } catch (error) {

@@ -4,10 +4,14 @@ import { flame, light } from "../../assets/Colors";
 import IconButton from "./Buttons/IconButton";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { print } from "../../utils/print";
 
 const Footer = ({ activeRoute = "home" }) => {
-  const { isLoading, isAuthenticated } = useSelector((state) => state.auth);
-  // const isAuthenticated = false;
+  const { user, isLoading, isAuthenticated } = useSelector(
+    (state) => state.auth,
+  );
+  // console.log("Footer");
+  // print(user);
   const navigation = useNavigation();
   const shopping = activeRoute === "cart" ? "shopping" : "shopping-outline";
   const account = !isAuthenticated
