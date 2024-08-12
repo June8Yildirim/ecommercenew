@@ -37,14 +37,13 @@ export const updateCategory = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const deleteCategory = asyncErrorHandler(async (req, res, next) => {
-  const categoryId = req.params;
+  const { id } = req.params;
 
-  if (!categoryId)
-    return next(new ErrorHandler("Category id not provided"), 403);
-  const category = await Category.findOneAndDelete(categoryId);
-  console.log(categoryId);
+  if (!id) return next(new ErrorHandler("Category id not provided"), 403);
+  const category = await Category.findOneAndDelete(id);
+  console.log(id);
   if (!category) return next(new ErrorHandler("Category not found"), 404);
-  const products = await Product.findOne({ categoryId });
+  const products = await Product.findOne({ categoryId: id });
   products.forEach((product) => {
     const categoryUpd = Product.findByIdAndUpdate(
       product.id,
