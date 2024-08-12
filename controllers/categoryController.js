@@ -4,9 +4,7 @@ import Category from "../models/Category.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const createCategory = asyncErrorHandler(async (req, res, next) => {
-  console.log("=======================");
   const { category } = req.body;
-  console.log(req.body);
   if (!category) return next(new ErrorHandler("Category not provided"), 403);
   const cat = await Category.create({ category });
   res.status(201).json({ message: "Category is created", category: cat });
@@ -44,6 +42,7 @@ export const deleteCategory = asyncErrorHandler(async (req, res, next) => {
   if (!categoryId)
     return next(new ErrorHandler("Category id not provided"), 403);
   const category = await Category.findOneAndDelete(categoryId);
+  console.log(categoryId);
   if (!category) return next(new ErrorHandler("Category not found"), 404);
   const products = await Product.findOne({ categoryId });
   products.forEach((product) => {
