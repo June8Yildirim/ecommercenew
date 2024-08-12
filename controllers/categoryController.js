@@ -44,6 +44,7 @@ export const deleteCategory = asyncErrorHandler(async (req, res, next) => {
   console.log(id);
   if (!category) return next(new ErrorHandler("Category not found"), 404);
   const products = await Product.findOne({ categoryId: id });
+  console.log(products.name);
   products.forEach((product) => {
     const categoryUpd = Product.findByIdAndUpdate(
       product.id,
