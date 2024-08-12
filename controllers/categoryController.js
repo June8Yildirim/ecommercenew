@@ -41,9 +41,9 @@ export const deleteCategory = asyncErrorHandler(async (req, res, next) => {
 
   if (!id) return next(new ErrorHandler("Category id not provided"), 403);
   const category = await Category.findOneAndDelete(id);
-  console.log(id);
   if (!category) return next(new ErrorHandler("Category not found"), 404);
   const products = await Product.find({ categoryId: id });
+  //FIX: look carefully does not do undefined
   products.forEach((product) => {
     const categoryUpd = Product.findByIdAndUpdate(
       product._id,

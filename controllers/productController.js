@@ -92,11 +92,13 @@ export const updateProduct = asyncErrorHandler(async (req, res, next) => {
       public_id: image.public_id,
     };
   }
+  console.log("============");
   const updatedProduct = await Product.findByIdAndUpdate(
     id,
     { ...req.body },
     { new: true, upsert: true },
   );
+  console.log(updatedProduct);
   const { images } = updatedProduct;
   updateProduct.images = [...images, productImage];
   res.status(201).json({ product });
