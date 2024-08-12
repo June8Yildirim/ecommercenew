@@ -79,7 +79,7 @@ export const getProductDetails = asyncErrorHandler(async (req, res, next) => {
 });
 
 export const updateProduct = asyncErrorHandler(async (req, res, next) => {
-  const { id } = req.param;
+  const { id } = req.params;
   if (!id) return next(new ErrorHandler("Product id not provided"), 403);
   const product = await Product.findById(id);
   if (!product) return next(new ErrorHandler("product not found"), 403);
