@@ -4,10 +4,12 @@ import Category from "../models/Category.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const createCategory = asyncErrorHandler(async (req, res, next) => {
+  console.log("=======================");
   const { category } = req.body;
+  console.log(req.body);
   if (!category) return next(new ErrorHandler("Category not provided"), 403);
   const cat = await Category.create({ category });
-  res.status(201).json({ message: "Category is created" });
+  res.status(201).json({ message: "Category is created", category: cat });
 });
 
 export const getAllCategories = asyncErrorHandler(async (req, res, next) => {
